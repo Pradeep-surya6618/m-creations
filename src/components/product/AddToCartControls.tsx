@@ -39,13 +39,13 @@ export function AddToCartControls({ productId, stock }: Props) {
           <QuantityStepper value={qty} onChange={setQty} max={stock} />
         </div>
       )}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-row gap-3">
         <Button
           variant="gradient"
           size="lg"
           onClick={handleAdd}
           disabled={outOfStock}
-          className="flex-1"
+          className="flex-1 min-w-0 whitespace-nowrap px-4 sm:px-8"
         >
           {outOfStock ? "Sold Out" : "Add to Cart"}
         </Button>
@@ -54,7 +54,7 @@ export function AddToCartControls({ productId, stock }: Props) {
           size="lg"
           onClick={handleBuy}
           disabled={outOfStock}
-          className="flex-1"
+          className="flex-1 min-w-0 whitespace-nowrap px-4 sm:px-8"
         >
           Buy Now
         </Button>
