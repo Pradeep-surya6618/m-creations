@@ -24,7 +24,7 @@ type LinkProps = CommonProps & {
 };
 
 const base =
-  "inline-flex items-center justify-center rounded-full font-semibold tracking-wide uppercase " +
+  "inline-flex items-center justify-center rounded-full font-semibold tracking-wide uppercase cursor-pointer " +
   "transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 " +
   "focus-visible:ring-brand-pink focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream " +
   "disabled:opacity-50 disabled:cursor-not-allowed";
