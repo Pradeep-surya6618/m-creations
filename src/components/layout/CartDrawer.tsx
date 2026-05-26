@@ -94,7 +94,7 @@ export function CartDrawer() {
                 type="button"
                 onClick={close}
                 aria-label="Close cart"
-                className="h-9 w-9 rounded-full bg-brand-cream border border-brand-blush text-brand-pink"
+                className="h-9 w-9 rounded-full bg-brand-cream border border-brand-blush text-brand-pink cursor-pointer hover:bg-brand-blush transition-colors"
               >
                 ✕
               </button>
@@ -107,7 +107,7 @@ export function CartDrawer() {
                   <p className="text-sm text-brand-ink-muted mb-6">
                     Your cart hasn&apos;t met a flower yet 🌸
                   </p>
-                  <Button href="/shop" variant="gradient" size="md" >
+                  <Button href="/shop" variant="gradient" size="md" onClick={close}>
                     Browse the Shop
                   </Button>
                 </div>
@@ -145,7 +145,7 @@ export function CartDrawer() {
                             type="button"
                             onClick={() => remove(l.productId)}
                             aria-label={`Remove ${l.product.name} from cart`}
-                            className="text-xs text-brand-ink-muted hover:text-brand-pink underline-offset-2 hover:underline"
+                            className="text-xs text-brand-ink-muted hover:text-brand-pink underline-offset-2 hover:underline cursor-pointer"
                           >
                             Remove
                           </button>
@@ -165,7 +165,7 @@ export function CartDrawer() {
                   </span>
                   <ProductPrice amount={subtotal} size="lg" />
                 </div>
-                <Button href="/checkout" variant="gradient" size="lg" className="w-full">
+                <Button href="/checkout" variant="gradient" size="lg" className="w-full" onClick={close}>
                   Checkout
                 </Button>
                 <p className="text-[10px] text-center text-brand-ink-muted">

@@ -20,6 +20,7 @@ type LinkProps = CommonProps & {
   href: string;
   target?: string;
   rel?: string;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
 const base =
@@ -54,6 +55,7 @@ export function Button(props: ButtonProps | LinkProps) {
         href={props.href}
         target={props.target}
         rel={props.rel}
+        onClick={props.onClick}
         className={cls}
       >
         {children}
