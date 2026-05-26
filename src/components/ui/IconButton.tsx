@@ -11,7 +11,7 @@ export function IconButton({ label, count, children, className, ...rest }: Props
     <button
       aria-label={count !== undefined ? `${label}, ${count} items` : label}
       className={cn(
-        "relative inline-flex h-10 w-10 items-center justify-center rounded-full",
+        "relative inline-flex h-10 w-10 items-center justify-center rounded-full cursor-pointer",
         "bg-white/70 backdrop-blur border border-brand-blush text-brand-pink",
         "transition-all hover:bg-white hover:-translate-y-0.5",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink focus-visible:ring-offset-2",

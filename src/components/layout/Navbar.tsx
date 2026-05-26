@@ -61,26 +61,42 @@ export function Navbar() {
             </nav>
 
             <div className="flex items-center gap-3">
-              <Link
-                href="/shop"
-                aria-label={`Wishlist, ${wishCount} items`}
-                className="hidden sm:inline-flex relative h-10 w-10 items-center justify-center rounded-full bg-white/70 backdrop-blur border border-brand-blush text-brand-pink hover:bg-white transition-all"
-              >
-                ♥
-                {wishCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-pink text-white text-[10px] font-bold flex items-center justify-center">
-                    {wishCount}
-                  </span>
-                )}
-              </Link>
+              <div className="group relative">
+                <Link
+                  href="/shop"
+                  aria-label={`Wishlist, ${wishCount} items`}
+                  className="inline-flex relative h-10 w-10 items-center justify-center rounded-full bg-white/70 backdrop-blur border border-brand-blush text-brand-pink hover:bg-white transition-all"
+                >
+                  ♥
+                  {wishCount > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-pink text-white text-[10px] font-bold flex items-center justify-center">
+                      {wishCount}
+                    </span>
+                  )}
+                </Link>
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-pink-dark px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+                >
+                  Wishlist
+                </span>
+              </div>
 
-              <IconButton
-                label="Open cart"
-                count={cartCount}
-                onClick={openCart}
-              >
-                🛍
-              </IconButton>
+              <div className="group relative">
+                <IconButton
+                  label="Open cart"
+                  count={cartCount}
+                  onClick={openCart}
+                >
+                  🛍
+                </IconButton>
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-pink-dark px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+                >
+                  Cart
+                </span>
+              </div>
 
               <button
                 type="button"
