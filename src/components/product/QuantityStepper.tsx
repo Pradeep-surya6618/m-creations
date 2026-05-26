@@ -18,7 +18,7 @@ export function QuantityStepper({ value, onChange, max = 99, min = 1 }: Props) {
         aria-label="Decrease quantity"
         onClick={dec}
         disabled={value <= min}
-        className="w-9 h-9 flex items-center justify-center text-brand-pink disabled:opacity-30 hover:bg-brand-cream rounded-l-full"
+        className="w-9 h-9 flex items-center justify-center text-brand-pink cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:bg-brand-cream rounded-l-full"
       >
         −
       </button>
@@ -33,7 +33,7 @@ export function QuantityStepper({ value, onChange, max = 99, min = 1 }: Props) {
         aria-label="Increase quantity"
         onClick={inc}
         disabled={value >= max}
-        className="w-9 h-9 flex items-center justify-center text-brand-pink disabled:opacity-30 hover:bg-brand-cream rounded-r-full"
+        className="w-9 h-9 flex items-center justify-center text-brand-pink cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:bg-brand-cream rounded-r-full"
       >
         +
       </button>

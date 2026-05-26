@@ -66,7 +66,7 @@ export function ProductCard({ product, categoryLabel }: Props) {
         aria-label={isWished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
         aria-pressed={isWished}
         className={cn(
-          "absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full",
+          "absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full cursor-pointer",
           "bg-white/85 backdrop-blur border border-white/60 text-brand-pink shadow-petal-sm",
           "transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink"
         )}
@@ -92,7 +92,7 @@ export function ProductCard({ product, categoryLabel }: Props) {
             onClick={handleAdd}
             disabled={outOfStock}
             className={cn(
-              "text-[11px] font-bold uppercase tracking-[0.1em] px-4 py-2 rounded-full",
+              "text-[11px] font-bold uppercase tracking-[0.1em] px-4 py-2 rounded-full cursor-pointer",
               "bg-brand-gradient text-white shadow-petal-sm transition-all",
               "hover:-translate-y-0.5 hover:shadow-petal-md",
               "disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0",
