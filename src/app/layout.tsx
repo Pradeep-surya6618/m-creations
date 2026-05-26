@@ -17,7 +17,7 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:4000"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:4000"),
   title: {
     default: "Maria Creations · Handmade Flowers",
     template: "%s · Maria Creations",
