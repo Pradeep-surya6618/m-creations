@@ -25,39 +25,39 @@ export default function HomePage() {
   return (
     <>
       {/* === HERO === */}
-      <section className="relative -mt-16 lg:-mt-20 min-h-[90vh] lg:min-h-[760px] overflow-hidden">
+      <section className="relative -mt-16 lg:-mt-20 overflow-hidden">
         {/* Layered backgrounds — extend behind the (transparent) navbar */}
         <div className="absolute inset-0 bg-gradient-to-br from-brand-blush/40 via-brand-cream to-brand-pink-soft/15" />
-        <div className="pointer-events-none absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full bg-brand-pink/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-brand-blush/50 blur-3xl" />
+        <div className="pointer-events-none absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-brand-pink/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-32 h-[400px] w-[400px] rounded-full bg-brand-blush/50 blur-3xl" />
 
         {/* Ambient petals across the whole hero */}
-        <FloatingPetals count={10} />
+        <FloatingPetals count={8} />
 
         <Container width="hero" className="relative">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-center min-h-[90vh] lg:min-h-[760px] pt-28 lg:pt-36 pb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-8 lg:gap-12 items-center pt-24 lg:pt-28 pb-12 lg:pb-16">
             {/* TEXT */}
             <div className="relative">
-              <p className="inline-flex items-center gap-3 mb-6 text-[10px] sm:text-xs uppercase tracking-[0.35em] text-brand-pink-dark font-bold">
-                <span className="h-px w-10 bg-brand-pink" />
+              <p className="inline-flex items-center gap-3 mb-4 text-[10px] sm:text-xs uppercase tracking-[0.35em] text-brand-pink-dark font-bold">
+                <span className="h-px w-8 bg-brand-pink" />
                 Est. Madurai · Handmade
               </p>
 
-              <h1 className="font-script text-brand-pink leading-[0.88] tracking-tight text-6xl sm:text-7xl lg:text-[7.5rem] xl:text-[8.5rem]">
+              <h1 className="font-script text-brand-pink leading-[0.9] tracking-tight text-5xl sm:text-6xl lg:text-7xl xl:text-8xl">
                 Maria<br className="lg:hidden" /> Creations
               </h1>
 
-              <p className="mt-8 max-w-md text-lg sm:text-xl text-brand-ink-muted leading-relaxed">
+              <p className="mt-5 max-w-md text-base sm:text-lg text-brand-ink-muted leading-relaxed">
                 Handmade flowers crafted with love — one petal at a time, made just for you.
               </p>
 
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="mt-7 flex flex-wrap gap-3">
                 <Button href="/shop" variant="gradient" size="lg">Shop Now</Button>
                 <Button href="/shop" variant="ghost" size="lg">View Collection</Button>
               </div>
 
               {/* Trust indicators */}
-              <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-brand-ink-muted">
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-brand-ink-muted">
                 <div className="flex items-center gap-2">
                   <span className="text-brand-pink text-sm">✿</span>
                   <span className="font-medium">Handmade · never wilts</span>
@@ -74,7 +74,7 @@ export default function HomePage() {
               {/* Glow behind image */}
               <div className="pointer-events-none absolute -inset-6 bg-brand-gradient opacity-15 blur-3xl rounded-full" />
 
-              <div className="relative aspect-[4/5] lg:aspect-[5/6] rounded-[2rem] overflow-hidden shadow-petal-lg ring-1 ring-white/50">
+              <div className="relative aspect-[4/5] lg:aspect-square rounded-[2rem] overflow-hidden shadow-petal-lg ring-1 ring-white/50">
                 <Image
                   src="/Handmade-1.jpeg"
                   alt="Handmade pipe-cleaner bouquet by Maria Creations"
@@ -88,8 +88,8 @@ export default function HomePage() {
               </div>
 
               {/* Floating badge */}
-              <div className="absolute -bottom-5 left-4 sm:left-6 lg:bottom-8 lg:left-auto lg:-right-6 flex items-center gap-3 rounded-2xl bg-white/95 backdrop-blur-md px-5 py-4 shadow-petal-lg border border-brand-blush">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-gradient text-white text-lg shadow-petal-sm">
+              <div className="absolute -bottom-4 left-4 sm:left-6 lg:bottom-6 lg:left-auto lg:-right-5 flex items-center gap-3 rounded-2xl bg-white/95 backdrop-blur-md px-4 py-3 shadow-petal-lg border border-brand-blush">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-gradient text-white text-base shadow-petal-sm">
                   ✿
                 </div>
                 <div>
