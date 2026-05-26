@@ -93,4 +93,11 @@
     height: 0;
     display: none;                /* WebKit */
   }
+
+  /* Hover tooltips are pointless (and visually noisy) on touch devices
+     where "hover" sticks after a tap. Hide globally — applies to any
+     element marked with role="tooltip". */
+  [role="tooltip"] {
+    display: none !important;
+  }
 }
