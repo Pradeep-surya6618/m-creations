@@ -38,6 +38,9 @@ export function MobileMenu({ links }: Props) {
     <AnimatePresence>
       {open && (
         <m.div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Main menu"
           className="fixed inset-0 z-50 bg-brand-cream md:hidden flex flex-col"
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}

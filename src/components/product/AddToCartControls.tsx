@@ -33,9 +33,9 @@ export function AddToCartControls({ productId, stock }: Props) {
     <div className="space-y-5">
       {!outOfStock && (
         <div className="flex items-center gap-4">
-          <label className="text-xs uppercase tracking-[0.2em] text-brand-ink-muted font-semibold">
+          <span aria-hidden className="text-xs uppercase tracking-[0.2em] text-brand-ink-muted font-semibold">
             Quantity
-          </label>
+          </span>
           <QuantityStepper value={qty} onChange={setQty} max={stock} />
         </div>
       )}

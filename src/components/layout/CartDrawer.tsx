@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
@@ -10,6 +10,20 @@ import { products } from "@/data/products";
 import { ProductPrice } from "@/components/product/ProductPrice";
 import { QuantityStepper } from "@/components/product/QuantityStepper";
 import { Button } from "@/components/ui/Button";
+
+function useIsDesktopDrawer() {
+  // matches our Tailwind `sm:` breakpoint
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 640px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isDesktop;
+}
 
 export function CartDrawer() {
   const open = useUIStore((s) => s.isCartOpen);
@@ -47,6 +61,8 @@ export function CartDrawer() {
     };
   }, [open, close]);
 
+  const isDesktop = useIsDesktopDrawer();
+
   return (
     <AnimatePresence>
       {open && (
@@ -62,13 +78,14 @@ export function CartDrawer() {
           <m.aside
             key="drawer"
             role="dialog"
+            aria-modal="true"
             aria-label="Shopping cart"
             className="fixed z-50 bg-white shadow-petal-lg flex flex-col
               inset-x-0 bottom-0 max-h-[85vh] rounded-t-3xl
               sm:inset-y-0 sm:right-0 sm:left-auto sm:w-full sm:max-w-md sm:max-h-none sm:rounded-l-3xl sm:rounded-t-none"
-            initial={{ y: "100%", x: 0 }}
-            animate={{ y: 0, x: 0 }}
-            exit={{ y: "100%" }}
+            initial={isDesktop ? { x: "100%", y: 0 } : { y: "100%", x: 0 }}
+            animate={{ x: 0, y: 0 }}
+            exit={isDesktop ? { x: "100%" } : { y: "100%" }}
             transition={{ duration: 0.25, ease: "easeOut" }}
           >
             <header className="flex items-center justify-between px-6 py-5 border-b border-brand-blush">
@@ -127,6 +144,7 @@ export function CartDrawer() {
                           <button
                             type="button"
                             onClick={() => remove(l.productId)}
+                            aria-label={`Remove ${l.product.name} from cart`}
                             className="text-xs text-brand-ink-muted hover:text-brand-pink underline-offset-2 hover:underline"
                           >
                             Remove
