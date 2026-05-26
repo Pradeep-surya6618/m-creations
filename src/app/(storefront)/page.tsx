@@ -38,7 +38,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-6 sm:gap-8 lg:gap-12 items-center pt-20 lg:pt-24 pb-10 lg:pb-14">
             {/* TEXT */}
             <div className="relative">
-              <p className="inline-flex items-center gap-3 mb-4 text-[10px] sm:text-xs uppercase tracking-[0.35em] text-brand-pink-dark font-bold">
+              <p className="inline-flex items-center gap-3 mb-6 lg:mb-8 text-[10px] sm:text-xs uppercase tracking-[0.35em] text-brand-pink-dark font-bold">
                 <span className="h-px w-8 bg-brand-pink" />
                 Est. Madurai · Handmade
               </p>
