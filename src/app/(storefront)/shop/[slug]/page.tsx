@@ -78,7 +78,11 @@ export default async function ProductDetailPage({
         <ProductGallery images={product.images} alt={product.name} />
 
         <div className="flex flex-col gap-6">
-          {category && <Chip variant="category">{category.name}</Chip>}
+          {category && (
+            <Chip variant="category" className="self-start">
+              {category.name}
+            </Chip>
+          )}
           <ScriptHeading as="h1">{product.name}</ScriptHeading>
           <ProductPrice amount={product.price} size="lg" />
           <p className="text-brand-ink-muted leading-relaxed">
