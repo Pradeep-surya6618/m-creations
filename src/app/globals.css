@@ -44,3 +44,53 @@
 @utility bg-brand-gradient {
   background-image: var(--brand-gradient);
 }
+
+/* ---------- Custom scrollbar (pink, slim, desktop only) ---------- */
+
+/* Desktop: thin pink "floating" scrollbar with cream padding ring. */
+@media (min-width: 768px) {
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brand-pink) transparent;
+  }
+
+  /* WebKit (Chrome, Edge, Safari) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-brand-pink);
+    border-radius: 999px;
+    /* Border-with-padding-clip trick: leaves a 2px transparent gutter on
+       each side of the thumb so it looks like a thin pill floating in
+       the track. */
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brand-pink-dark);
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+/* Mobile / tablet (< md): hide the scrollbar entirely while keeping
+   scroll behavior. Touch devices don't need a visible track. */
+@media (max-width: 767px) {
+  * {
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* legacy Edge / IE */
+  }
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;                /* WebKit */
+  }
+}
