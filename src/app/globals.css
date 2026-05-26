@@ -1,19 +1,46 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Brand colors */
+  --color-brand-pink: #ff4f93;
+  --color-brand-pink-soft: #ff7fb2;
+  --color-brand-blush: #ffd6e7;
+  --color-brand-cream: #fff7fa;
+  --color-brand-ink: #2a1620;
+  --color-brand-ink-muted: #6b3a4d;
+
+  /* Brand-aware shadows */
+  --shadow-petal-sm: 0 8px 24px rgba(255, 79, 147, 0.08);
+  --shadow-petal-md: 0 16px 36px rgba(255, 79, 147, 0.14);
+  --shadow-petal-lg: 0 20px 50px rgba(255, 79, 147, 0.22);
+
+  /* Font families (mapped to next/font CSS vars set on <html>) */
+  --font-script: var(--font-great-vibes), cursive;
+  --font-body: var(--font-quicksand), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-quicksand), system-ui, -apple-system, sans-serif;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}  */
+:root {
+  --brand-gradient: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-pink-soft));
+}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    background: var(--color-brand-cream);
+    color: var(--color-brand-ink);
+  }
+
+  body {
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-brand-blush);
+    color: var(--color-brand-ink);
+  }
+}
+
+@utility bg-brand-gradient {
+  background-image: var(--brand-gradient);
 }
