@@ -9,6 +9,7 @@ export type RepriceResult =
 
 export function repriceCart(input: RepriceInput[]): RepriceResult {
   if (input.length === 0) return { ok: false, error: "Your cart is empty." };
+  if (input.length > 50) return { ok: false, error: "Too many items in cart." };
 
   const items: OrderItem[] = [];
   for (const line of input) {
@@ -19,6 +20,12 @@ export function repriceCart(input: RepriceInput[]): RepriceResult {
     }
     if (product.stock <= 0) {
       return { ok: false, error: `${product.name} is sold out.` };
+    }
+    if (line.quantity > product.stock) {
+      return {
+        ok: false,
+        error: `Only ${product.stock} of ${product.name} available.`,
+      };
     }
     items.push({
       productId: product.id,

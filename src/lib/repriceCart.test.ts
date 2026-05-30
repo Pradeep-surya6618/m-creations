@@ -34,4 +34,14 @@ describe("repriceCart", () => {
     const r = repriceCart([{ productId: "mc-p-001", quantity: 0 }]);
     expect(r.ok).toBe(false);
   });
+  it("rejects quantity greater than available stock", () => {
+    // mc-p-001 has stock 8
+    const r = repriceCart([{ productId: "mc-p-001", quantity: 9 }]);
+    expect(r.ok).toBe(false);
+  });
+  it("rejects more than 50 distinct line items", () => {
+    const lines = Array.from({ length: 51 }, () => ({ productId: "mc-p-001", quantity: 1 }));
+    const r = repriceCart(lines);
+    expect(r.ok).toBe(false);
+  });
 });

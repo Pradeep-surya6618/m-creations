@@ -8,6 +8,10 @@ type Props = { amount: number; orderId: string };
 export async function UpiQr({ amount, orderId }: Props) {
   const upiId = process.env.NEXT_PUBLIC_UPI_ID ?? "";
   const upiName = process.env.NEXT_PUBLIC_UPI_NAME ?? "Maria Creations";
+  if (!upiId) {
+    // Dev signal: the QR will render but the UPI deep link won't open a real app.
+    console.warn("[UpiQr] NEXT_PUBLIC_UPI_ID is not set — generated QR will be unusable.");
+  }
   const uri = buildUpiUri({ payeeId: upiId, payeeName: upiName, amount, note: orderId });
   const qr = await generateQrDataUrl(uri);
 
