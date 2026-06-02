@@ -3,12 +3,14 @@ import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { PageTransition } from "@/components/motion/PageTransition";
+import { getAllProducts } from "@/lib/catalog";
 
-export default function StorefrontLayout({
+export default async function StorefrontLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const products = await getAllProducts();
   return (
     <MotionProvider>
       <Navbar />
@@ -16,7 +18,7 @@ export default function StorefrontLayout({
         <PageTransition>{children}</PageTransition>
       </main>
       <Footer />
-      <CartDrawer />
+      <CartDrawer products={products} />
     </MotionProvider>
   );
 }

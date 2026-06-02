@@ -11,15 +11,16 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { AddToCartControls } from "@/components/product/AddToCartControls";
 import {
-  products,
+  getAllProducts,
   getProductBySlug,
   getRelatedProducts,
-} from "@/data/products";
-import { categories } from "@/data/categories";
+  getAllCategories,
+} from "@/lib/catalog";
 
 type Params = { slug: string };
 
 export async function generateStaticParams() {
+  const products = await getAllProducts();
   return products.map((p) => ({ slug: p.slug }));
 }
 
@@ -29,7 +30,7 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return { title: "Not found" };
 
   return {
@@ -49,11 +50,12 @@ export default async function ProductDetailPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
+  const related = await getRelatedProducts(product.id, product.category, 4);
+  const categories = await getAllCategories();
   const category = categories.find((c) => c.slug === product.category);
-  const related = getRelatedProducts(product.id, product.category, 4);
 
   return (
     <Container className="py-10 lg:py-14">

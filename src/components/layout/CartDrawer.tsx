@@ -6,7 +6,7 @@ import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
 import { useCartStore } from "@/store/cart";
 import { useUIStore } from "@/store/ui";
-import { products } from "@/data/products";
+import type { Product } from "@/types/product";
 import { ProductPrice } from "@/components/product/ProductPrice";
 import { QuantityStepper } from "@/components/product/QuantityStepper";
 import { Button } from "@/components/ui/Button";
@@ -25,7 +25,7 @@ function useIsDesktopDrawer() {
   return isDesktop;
 }
 
-export function CartDrawer() {
+export function CartDrawer({ products }: { products: Product[] }) {
   const open = useUIStore((s) => s.isCartOpen);
   const close = useUIStore((s) => s.closeCart);
   const items = useCartStore((s) => s.items);
@@ -40,7 +40,7 @@ export function CartDrawer() {
           return product ? { ...i, product } : null;
         })
         .filter((x): x is NonNullable<typeof x> => x !== null),
-    [items]
+    [items, products]
   );
 
   const subtotal = lineItems.reduce(

@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { Select, type SelectOption } from "@/components/ui/Select";
-import { categories } from "@/data/categories";
+import type { Category } from "@/types/product";
 
 const sortOptions: SelectOption[] = [
   { value: "featured", label: "Featured" },
@@ -12,7 +12,7 @@ const sortOptions: SelectOption[] = [
   { value: "newest", label: "Newest" },
 ];
 
-export function ShopControls() {
+export function ShopControls({ categories }: { categories: Category[] }) {
   const router = useRouter();
   const path = usePathname();
   const params = useSearchParams();
@@ -24,7 +24,7 @@ export function ShopControls() {
       { value: "all", label: "All categories" },
       ...categories.map((c) => ({ value: c.slug, label: c.name })),
     ],
-    []
+    [categories]
   );
 
   const setParam = useCallback(

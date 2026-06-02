@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
-import { products } from "@/data/products";
-import { categories } from "@/data/categories";
+import { getAllProducts, getAllCategories } from "@/lib/catalog";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:4000";
   const now = new Date();
+
+  const [products, categories] = await Promise.all([getAllProducts(), getAllCategories()]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },

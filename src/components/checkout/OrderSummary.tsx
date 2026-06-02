@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { useMemo } from "react";
 import { useCartStore } from "@/store/cart";
-import { products } from "@/data/products";
+import type { Product } from "@/types/product";
 import { ProductPrice } from "@/components/product/ProductPrice";
 
-export function OrderSummary() {
+export function OrderSummary({ products }: { products: Product[] }) {
   const items = useCartStore((s) => s.items);
 
   const lineItems = useMemo(
@@ -17,7 +17,7 @@ export function OrderSummary() {
           return product ? { ...i, product } : null;
         })
         .filter((x): x is NonNullable<typeof x> => x !== null),
-    [items]
+    [items, products]
   );
 
   const subtotal = lineItems.reduce(

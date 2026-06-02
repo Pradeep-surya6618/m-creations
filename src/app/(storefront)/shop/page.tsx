@@ -5,8 +5,7 @@ import { ScriptHeading } from "@/components/brand/ScriptHeading";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { ShopControls } from "@/components/product/ShopControls";
-import { products } from "@/data/products";
-import { categories } from "@/data/categories";
+import { getAllProducts, getAllCategories } from "@/lib/catalog";
 import { sortProducts, type SortKey } from "@/lib/sortProducts";
 import { filterProducts } from "@/lib/filterProducts";
 
@@ -14,10 +13,6 @@ export const metadata: Metadata = {
   title: "Shop",
   description: "Browse the full collection of Maria Creations handmade flowers, candles, and gifts.",
 };
-
-const categoryLabels: Record<string, string> = Object.fromEntries(
-  categories.map((c) => [c.slug, c.name.toUpperCase()])
-);
 
 const VALID_SORTS: SortKey[] = ["featured", "price-asc", "price-desc", "newest"];
 
@@ -27,8 +22,13 @@ export default async function ShopPage({
   searchParams: Promise<{ category?: string; sort?: string }>;
 }) {
   const sp = await searchParams;
+  const [products, categories] = await Promise.all([getAllProducts(), getAllCategories()]);
   const category = sp.category;
   const sort = (VALID_SORTS.includes(sp.sort as SortKey) ? sp.sort : "featured") as SortKey;
+
+  const categoryLabels: Record<string, string> = Object.fromEntries(
+    categories.map((c) => [c.slug, c.name.toUpperCase()])
+  );
 
   const filtered = filterProducts(products, category);
   const sorted = sortProducts(filtered, sort);
@@ -63,7 +63,7 @@ export default async function ShopPage({
       </p>
 
       <div className="mt-8">
-        <ShopControls />
+        <ShopControls categories={categories} />
       </div>
 
       <div className="mt-8">

@@ -2,6 +2,7 @@
 
 import { checkoutSchema } from "@/lib/validation/checkout";
 import { repriceCart, type RepriceInput } from "@/lib/repriceCart";
+import { loadProductMap } from "@/lib/catalog";
 import { nextOrderId } from "@/lib/counter";
 import { createOrderDoc } from "@/lib/orders";
 import type { CustomerInfo } from "@/types/order";
@@ -21,7 +22,8 @@ export async function createOrder(input: {
   }
 
   // 2. Re-price items from the catalog server-side.
-  const priced = repriceCart(input.items ?? []);
+  const productMap = await loadProductMap();
+  const priced = repriceCart(input.items ?? [], productMap);
   if (!priced.ok) {
     return { ok: false, error: priced.error };
   }

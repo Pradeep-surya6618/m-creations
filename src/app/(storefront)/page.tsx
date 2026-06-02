@@ -8,8 +8,7 @@ import { CategoryTile } from "@/components/product/CategoryTile";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Reveal } from "@/components/motion/Reveal";
-import { categories } from "@/data/categories";
-import { getFeaturedProducts } from "@/data/products";
+import { getAllCategories, getFeaturedProducts } from "@/lib/catalog";
 
 const categoryLabels: Record<string, string> = {
   bouquets: "BOUQUETS",
@@ -19,8 +18,9 @@ const categoryLabels: Record<string, string> = {
   "candle-floral": "CANDLE FLORAL",
 };
 
-export default function HomePage() {
-  const featured = getFeaturedProducts();
+export default async function HomePage() {
+  const featured = await getFeaturedProducts();
+  const categories = await getAllCategories();
 
   return (
     <>

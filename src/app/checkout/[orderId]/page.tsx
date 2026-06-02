@@ -9,6 +9,7 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { UpiQr } from "@/components/checkout/UpiQr";
 import { PaymentUpload } from "@/components/checkout/PaymentUpload";
 import { getOrderByOrderId } from "@/lib/orders";
+import { getAllProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Complete Payment",
@@ -20,7 +21,7 @@ export default async function PaymentPage({
   params: Promise<{ orderId: string }>;
 }) {
   const { orderId } = await params;
-  const order = await getOrderByOrderId(orderId);
+  const [order, products] = await Promise.all([getOrderByOrderId(orderId), getAllProducts()]);
   if (!order) notFound();
   if (order.paymentStatus !== "Pending") {
     redirect(`/checkout/${orderId}/done`);
@@ -61,7 +62,7 @@ export default async function PaymentPage({
         </Container>
       </main>
       <Footer />
-      <CartDrawer />
+      <CartDrawer products={products} />
     </MotionProvider>
   );
 }
