@@ -33,3 +33,28 @@ export async function verifyAdminToken(
 
 export const SESSION_COOKIE_NAME = "mc-admin-session";
 export const SESSION_MAX_AGE = EXPIRY_SECONDS;
+
+import { cookies } from "next/headers";
+
+/**
+ * Use inside server actions and protected route handlers. Reads the
+ * session cookie, verifies the JWT, throws if invalid/missing.
+ * Middleware (proxy.ts) is the perimeter; this is the inner ring.
+ */
+export async function requireAdminSession(): Promise<{ email: string }> {
+  const store = await cookies();
+  const token = store.get(SESSION_COOKIE_NAME)?.value ?? "";
+  const session = await verifyAdminToken(token);
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+  return { email: session.sub };
+}
+
+/** Non-throwing variant for layouts that want to render the admin email. */
+export async function getAdminSession(): Promise<{ email: string } | null> {
+  const store = await cookies();
+  const token = store.get(SESSION_COOKIE_NAME)?.value ?? "";
+  const session = await verifyAdminToken(token);
+  return session ? { email: session.sub } : null;
+}
