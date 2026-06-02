@@ -1,5 +1,5 @@
 export type OrderStatus = "Pending" | "Processing" | "Shipped" | "Delivered";
-export type PaymentStatus = "Pending" | "Verification Pending" | "Paid";
+export type PaymentStatus = "Pending" | "Verification Pending" | "Paid" | "Rejected";
 
 export type CustomerInfo = {
   name: string;
@@ -31,6 +31,11 @@ export type OrderRecord = {
     screenshotId: string;
     utr?: string;
     uploadedAt: string; // ISO
+  };
+  verification?: {
+    verifiedAt?: string;   // ISO
+    rejectedAt?: string;   // ISO
+    notes?: string;
   };
   createdAt: string; // ISO
   updatedAt: string; // ISO
