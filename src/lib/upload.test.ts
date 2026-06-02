@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isAllowedImage, MAX_UPLOAD_BYTES } from "./upload";
+import { isAllowedImage, isAllowedProductImage, MAX_UPLOAD_BYTES } from "./upload";
 
 describe("isAllowedImage", () => {
   it("accepts a jpeg under the limit", () => {
@@ -17,5 +17,14 @@ describe("isAllowedImage", () => {
   });
   it("rejects an empty file", () => {
     expect(isAllowedImage("image/jpeg", 0).ok).toBe(false);
+  });
+});
+
+describe("isAllowedProductImage", () => {
+  it("accepts a jpeg under 5MB", () => {
+    expect(isAllowedProductImage("image/jpeg", 4 * 1024 * 1024).ok).toBe(true);
+  });
+  it("rejects a 6MB image", () => {
+    expect(isAllowedProductImage("image/jpeg", 6 * 1024 * 1024).ok).toBe(false);
   });
 });
