@@ -37,7 +37,7 @@ export function ProductGallery({ images, alt }: Props) {
               aria-label={`Show image ${i + 1}`}
               aria-pressed={i === active}
               className={cn(
-                "relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all",
+                "relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all cursor-pointer",
                 i === active
                   ? "border-brand-pink shadow-petal-sm"
                   : "border-transparent opacity-60 hover:opacity-100"

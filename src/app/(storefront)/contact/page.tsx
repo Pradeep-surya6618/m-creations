@@ -65,7 +65,7 @@ export default function ContactPage() {
                   href={c.href}
                   target={c.external ? "_blank" : undefined}
                   rel={c.external ? "noopener noreferrer" : undefined}
-                  className="text-brand-pink text-2xl"
+                  className="cursor-pointer text-brand-pink text-2xl hover:opacity-70 transition-opacity"
                   aria-label={`Open ${c.label}`}
                 >
                   →

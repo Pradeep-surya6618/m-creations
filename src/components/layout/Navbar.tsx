@@ -102,7 +102,7 @@ export function Navbar() {
                 type="button"
                 onClick={toggleMenu}
                 aria-label="Open menu"
-                className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/70 backdrop-blur border border-brand-blush text-brand-pink"
+                className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/70 backdrop-blur border border-brand-blush text-brand-pink cursor-pointer"
               >
                 ☰
               </button>

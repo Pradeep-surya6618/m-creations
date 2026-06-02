@@ -53,7 +53,7 @@ export function MobileMenu({ links }: Props) {
               type="button"
               onClick={close}
               aria-label="Close menu"
-              className="h-10 w-10 inline-flex items-center justify-center rounded-full bg-white border border-brand-blush text-brand-pink"
+              className="h-10 w-10 inline-flex items-center justify-center rounded-full bg-white border border-brand-blush text-brand-pink cursor-pointer"
             >
               ✕
             </button>
