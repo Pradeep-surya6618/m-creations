@@ -6,6 +6,8 @@ import { SectionDivider } from "@/components/brand/SectionDivider";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
 import { BRAND } from "@/lib/brand";
+import { getAboutContent } from "@/lib/content";
+import { MarkdownView } from "@/components/storefront/MarkdownView";
 
 export const metadata: Metadata = {
   title: "About",
@@ -27,23 +29,18 @@ const values = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const c = await getAboutContent();
   return (
     <Container className="py-12 lg:py-20">
       <div className="max-w-3xl">
         <p className="text-[10px] uppercase tracking-[0.3em] text-brand-ink-muted mb-3 font-semibold">
-          Our Story
+          {c.eyebrow || "Our Story"}
         </p>
         <ScriptHeading as="h1">A boutique made by hand</ScriptHeading>
-        <p className="mt-6 text-lg text-brand-ink-muted leading-relaxed">
-          Maria Creations started in a small studio in {BRAND.location}, with a few pipe cleaners,
-          a roll of satin ribbon, and the stubborn idea that flowers shouldn&apos;t have to wilt.
-        </p>
-        <p className="mt-4 text-base text-brand-ink-muted leading-relaxed">
-          What began as a quiet passion has grown into a small collection of bouquets, candles,
-          and gifts — each one made by hand, each one a little different from the last. We&apos;re
-          glad you&apos;re here.
-        </p>
+        <div className="mt-6 prose prose-sm max-w-none text-brand-ink-muted">
+          <MarkdownView body={c.body} />
+        </div>
       </div>
 
       <SectionDivider className="my-16" />
@@ -52,10 +49,11 @@ export default function AboutPage() {
         <Reveal>
           <div className="relative aspect-square rounded-3xl overflow-hidden shadow-petal-md">
             <Image
-              src="/Handmade-2.jpeg"
+              src={c.image ?? "/Handmade-2.jpeg"}
               alt="Maria in the studio"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
+              unoptimized={c.image?.startsWith("/api/images/") ?? false}
               className="object-cover"
             />
           </div>

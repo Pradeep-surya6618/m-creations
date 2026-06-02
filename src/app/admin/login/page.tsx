@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Container } from "@/components/ui/Container";
 import { ScriptHeading } from "@/components/brand/ScriptHeading";
 import { AdminCard } from "@/components/admin/AdminCard";
@@ -20,7 +21,9 @@ export default function AdminLoginPage() {
             <p className="mt-3 text-sm text-brand-ink-muted">Sign in to manage the boutique.</p>
           </div>
           <AdminCard>
-            <LoginForm />
+            <Suspense>
+              <LoginForm />
+            </Suspense>
           </AdminCard>
         </Container>
       </main>

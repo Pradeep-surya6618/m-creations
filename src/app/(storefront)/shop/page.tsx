@@ -26,6 +26,20 @@ export default async function ShopPage({
   const category = sp.category;
   const sort = (VALID_SORTS.includes(sp.sort as SortKey) ? sp.sort : "featured") as SortKey;
 
+  if (products.length === 0) {
+    return (
+      <Container className="py-20 text-center">
+        <ScriptHeading as="h1" align="center">Coming soon</ScriptHeading>
+        <p className="mt-4 text-brand-ink-muted">
+          We&apos;re putting our first flowers together — check back soon 🌸
+        </p>
+        <Link href="/" className="mt-6 inline-block text-brand-pink font-semibold cursor-pointer hover:underline">
+          Back to home
+        </Link>
+      </Container>
+    );
+  }
+
   const categoryLabels: Record<string, string> = Object.fromEntries(
     categories.map((c) => [c.slug, c.name.toUpperCase()])
   );

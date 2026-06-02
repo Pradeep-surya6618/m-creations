@@ -9,6 +9,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Reveal } from "@/components/motion/Reveal";
 import { getAllCategories, getFeaturedProducts } from "@/lib/catalog";
+import { getHeroContent } from "@/lib/content";
 
 const categoryLabels: Record<string, string> = {
   bouquets: "BOUQUETS",
@@ -21,6 +22,7 @@ const categoryLabels: Record<string, string> = {
 export default async function HomePage() {
   const featured = await getFeaturedProducts();
   const categories = await getAllCategories();
+  const hero = await getHeroContent();
 
   return (
     <>
@@ -40,7 +42,7 @@ export default async function HomePage() {
             <div className="relative">
               <p className="inline-flex items-center gap-2 sm:gap-3 mb-6 lg:mb-8 text-[9px] sm:text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-brand-pink-dark font-bold">
                 <span className="h-px w-6 sm:w-8 bg-brand-pink" />
-                Est. Madurai · Handmade
+                {hero.eyebrow}
               </p>
 
               <h1 className="font-script text-brand-pink leading-[0.9] tracking-tight text-4xl sm:text-6xl lg:text-7xl xl:text-8xl whitespace-nowrap">
@@ -48,7 +50,7 @@ export default async function HomePage() {
               </h1>
 
               <p className="mt-4 max-w-md text-base sm:text-lg text-brand-ink-muted leading-relaxed">
-                Handmade flowers crafted with love — one petal at a time, made just for you.
+                {hero.tagline}
               </p>
 
               <div className="mt-6 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-3">
@@ -90,11 +92,12 @@ export default async function HomePage() {
 
               <div className="relative h-[360px] sm:h-[440px] lg:h-[460px] rounded-[2rem] overflow-hidden shadow-petal-lg ring-1 ring-white/50">
                 <Image
-                  src="/Handmade-1.jpeg"
+                  src={hero.image ?? "/Handmade-1.jpeg"}
                   alt="Handmade pipe-cleaner bouquet by Maria Creations"
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 50vw"
+                  unoptimized={hero.image?.startsWith("/api/images/") ?? false}
                   className="object-cover"
                 />
                 {/* Subtle vignette for depth */}
@@ -107,8 +110,8 @@ export default async function HomePage() {
                   ✿
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-brand-pink-dark font-bold">New Arrival</p>
-                  <p className="text-sm font-semibold text-brand-ink">Spring Bouquets</p>
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-brand-pink-dark font-bold">{hero.badgeLabel}</p>
+                  <p className="text-sm font-semibold text-brand-ink">{hero.badgeText}</p>
                 </div>
               </div>
             </div>
@@ -116,49 +119,57 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <SectionDivider />
+      {categories.length > 0 && (
+        <>
+          <SectionDivider />
 
-      {/* === SHOP BY CATEGORY === */}
-      <section className="py-12 lg:py-20">
-        <Container>
-          <Reveal>
-            <ScriptHeading as="h2" align="center" ornament>
-              Shop by Category
-            </ScriptHeading>
-          </Reveal>
-          <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center">
-            {categories.map((c, i) => (
-              <Reveal key={c.slug} delay={i * 0.05}>
-                <CategoryTile category={c} />
+          {/* === SHOP BY CATEGORY === */}
+          <section className="py-12 lg:py-20">
+            <Container>
+              <Reveal>
+                <ScriptHeading as="h2" align="center" ornament>
+                  Shop by Category
+                </ScriptHeading>
               </Reveal>
-            ))}
-          </div>
-        </Container>
-      </section>
+              <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center">
+                {categories.map((c, i) => (
+                  <Reveal key={c.slug} delay={i * 0.05}>
+                    <CategoryTile category={c} />
+                  </Reveal>
+                ))}
+              </div>
+            </Container>
+          </section>
+        </>
+      )}
 
-      <SectionDivider />
+      {featured.length > 0 && (
+        <>
+          <SectionDivider />
 
-      {/* === FEATURED === */}
-      <section className="py-12 lg:py-20">
-        <Container>
-          <Reveal>
-            <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
-              <ScriptHeading as="h2">Featured Bouquets</ScriptHeading>
-              <Button href="/shop" variant="link" size="sm">View all →</Button>
-            </div>
-          </Reveal>
-          <ProductGrid>
-            {featured.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.05}>
-                <ProductCard
-                  product={p}
-                  categoryLabel={categoryLabels[p.category]}
-                />
+          {/* === FEATURED === */}
+          <section className="py-12 lg:py-20">
+            <Container>
+              <Reveal>
+                <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
+                  <ScriptHeading as="h2">Featured Bouquets</ScriptHeading>
+                  <Button href="/shop" variant="link" size="sm">View all →</Button>
+                </div>
               </Reveal>
-            ))}
-          </ProductGrid>
-        </Container>
-      </section>
+              <ProductGrid>
+                {featured.map((p, i) => (
+                  <Reveal key={p.id} delay={i * 0.05}>
+                    <ProductCard
+                      product={p}
+                      categoryLabel={categoryLabels[p.category]}
+                    />
+                  </Reveal>
+                ))}
+              </ProductGrid>
+            </Container>
+          </section>
+        </>
+      )}
 
       <SectionDivider />
 
