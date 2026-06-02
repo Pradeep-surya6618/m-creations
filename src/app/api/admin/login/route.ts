@@ -6,16 +6,18 @@ import {
   SESSION_MAX_AGE,
 } from "@/lib/adminSession";
 
-// In-memory rate limit: 5 failures per IP per 10 minutes.
+// In-memory rate limit: 3 failures per IP per 10 minutes.
 const failuresByIp = new Map<string, number[]>();
 const WINDOW_MS = 10 * 60 * 1000;
-const MAX_FAILURES = 5;
+const MAX_FAILURES = 3;
 
 function bumpFailure(ip: string): boolean {
   const now = Date.now();
   const arr = (failuresByIp.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
   arr.push(now);
   failuresByIp.set(ip, arr);
+  // Return is intentionally unused — the gate is the >= MAX_FAILURES check
+  // at the top of POST, which runs BEFORE bcrypt.
   return arr.length > MAX_FAILURES;
 }
 

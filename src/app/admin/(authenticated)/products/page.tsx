@@ -70,6 +70,9 @@ export default async function AdminProductsList({
               className: "w-16",
             },
             { key: "name", label: "Name", render: (p) => (
+                // NOTE: the URL [id] segment is the public productId (e.g. "mc-p-001"),
+                // not the Mongo _id hex. The edit page looks up the doc by productId
+                // and passes _id.toHexString() to update/delete actions.
                 <Link href={`/admin/products/${p.id}/edit`} className="font-semibold hover:text-brand-pink cursor-pointer">
                   {p.name}
                 </Link>

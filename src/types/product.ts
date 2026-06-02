@@ -1,15 +1,14 @@
-export type CategorySlug =
-  | "bouquets"
-  | "pipe-cleaner"
-  | "flower-pots"
-  | "gifts"
-  | "candle-floral";
+/**
+ * Historical 5 brand categories; widened to `string` in Phase 3
+ * when admin-created categories became possible.
+ */
+export type CategorySlug = string;
 
 export type Product = {
   id: string;
   slug: string;
   name: string;
-  category: CategorySlug;
+  category: string;
   price: number;
   images: string[];
   shortDescription: string;
@@ -20,7 +19,7 @@ export type Product = {
 };
 
 export type Category = {
-  slug: CategorySlug;
+  slug: string;
   name: string;
   description: string;
   image: string;

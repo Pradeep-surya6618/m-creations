@@ -14,6 +14,8 @@ export default async function EditProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  // `id` here is the public productId (e.g. "mc-p-001"). We resolve to
+  // the Mongo _id below and hand THAT to the update/delete actions.
   const db = await getDb();
   const doc = await db.collection<ProductDoc>("products").findOne({ productId: id });
   if (!doc) notFound();

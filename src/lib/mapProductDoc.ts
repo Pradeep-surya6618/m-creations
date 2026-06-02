@@ -6,7 +6,7 @@ export function mapProductDoc(doc: ProductDoc): Product {
     id: doc.productId,
     slug: doc.slug,
     name: doc.name,
-    category: doc.category as Product["category"],
+    category: doc.category,
     price: doc.price,
     images: doc.images.map((id) => `/api/images/${id.toHexString()}`),
     shortDescription: doc.shortDescription,
@@ -19,7 +19,7 @@ export function mapProductDoc(doc: ProductDoc): Product {
 
 export function mapCategoryDoc(doc: CategoryDoc): Category {
   return {
-    slug: doc.slug as Category["slug"],
+    slug: doc.slug,
     name: doc.name,
     description: doc.description,
     image: doc.image ? `/api/images/${doc.image.toHexString()}` : "",
