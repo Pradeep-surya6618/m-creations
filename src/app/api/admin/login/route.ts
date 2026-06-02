@@ -62,17 +62,43 @@ export async function POST(request: Request) {
   const adminEmail = process.env.ADMIN_EMAIL ?? "";
   const adminHash = process.env.ADMIN_PASSWORD_HASH ?? "";
   if (!adminEmail || !adminHash) {
-    console.error("Admin env vars not set.");
+    console.error("[admin login] env not set", {
+      hasEmail: Boolean(adminEmail),
+      hasHash: Boolean(adminHash),
+    });
     return Response.json({ error: "Server not configured." }, { status: 500 });
   }
 
-  const emailOk =
-    parsed.data.email.toLowerCase() === adminEmail.toLowerCase();
-  const passwordOk = emailOk
-    ? await compare(parsed.data.password, adminHash)
-    : false;
+  // === DEV DIAGNOSTICS — safe summary only, no secrets ===
+  // Tells us: do the emails match? does the stored hash even look like a
+  // bcrypt hash? did bcrypt.compare succeed?
+  const submittedEmail = parsed.data.email.trim();
+  const emailOk = submittedEmail.toLowerCase() === adminEmail.toLowerCase();
+  const hashLooksBcrypt = /^\$2[aby]\$/.test(adminHash);
+  const hashLength = adminHash.length;
+
+  let passwordOk = false;
+  let bcryptError: string | null = null;
+  if (emailOk) {
+    try {
+      passwordOk = await compare(parsed.data.password, adminHash);
+    } catch (err) {
+      bcryptError = err instanceof Error ? err.message : String(err);
+    }
+  }
 
   if (!emailOk || !passwordOk) {
+    console.error("[admin login] FAIL", {
+      submittedEmail,
+      envEmail: adminEmail,
+      emailMatched: emailOk,
+      submittedPasswordLength: parsed.data.password.length,
+      hashLooksBcrypt,
+      hashLength,
+      hashPrefix: adminHash.slice(0, 7), // "$2b$10$" if intact
+      bcryptError,
+      bcryptResult: emailOk ? passwordOk : "(skipped — email mismatch)",
+    });
     bumpFailure(ip);
     return Response.json(
       { error: "Wrong email or password." },
