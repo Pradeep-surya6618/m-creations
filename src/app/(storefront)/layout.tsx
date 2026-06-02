@@ -4,6 +4,7 @@ import { CartDrawer } from "@/components/layout/CartDrawer";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { getAllProducts } from "@/lib/catalog";
+import { StorefrontToaster } from "@/components/storefront/StorefrontToaster";
 
 export default async function StorefrontLayout({
   children,
@@ -19,6 +20,7 @@ export default async function StorefrontLayout({
       </main>
       <Footer />
       <CartDrawer products={products} />
+      <StorefrontToaster />
     </MotionProvider>
   );
 }

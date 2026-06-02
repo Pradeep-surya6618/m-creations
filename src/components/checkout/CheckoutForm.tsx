@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { toast } from "sonner";
 import { checkoutSchema, type CheckoutInput } from "@/lib/validation/checkout";
 import { createOrder } from "@/actions/createOrder";
 import { useCartStore } from "@/store/cart";
@@ -16,7 +16,6 @@ const fieldBase =
 export function CheckoutForm() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     register,
@@ -25,7 +24,6 @@ export function CheckoutForm() {
   } = useForm<CheckoutInput>({ resolver: zodResolver(checkoutSchema) });
 
   const onSubmit = async (data: CheckoutInput) => {
-    setSubmitError(null);
     const result = await createOrder({
       customer: data,
       items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
@@ -33,7 +31,7 @@ export function CheckoutForm() {
     if (result.ok) {
       router.push(`/checkout/${result.orderId}`);
     } else {
-      setSubmitError(result.error);
+      toast.error(result.error);
     }
   };
 
@@ -62,10 +60,6 @@ export function CheckoutForm() {
       <Field label="Pincode" error={errors.pincode?.message}>
         <input className={fieldBase} inputMode="numeric" placeholder="6-digit pincode" {...register("pincode")} />
       </Field>
-
-      {submitError && (
-        <p className="text-sm text-brand-pink font-semibold" role="alert">{submitError}</p>
-      )}
 
       <Button type="submit" variant="gradient" size="lg" disabled={isSubmitting} className="w-full">
         {isSubmitting ? "Placing order…" : "Place Order"}

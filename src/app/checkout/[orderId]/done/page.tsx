@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ProductPrice } from "@/components/product/ProductPrice";
 import { getOrderByOrderId } from "@/lib/orders";
+import { StorefrontToaster } from "@/components/storefront/StorefrontToaster";
 
 export const metadata: Metadata = {
   title: "Order Received",
@@ -73,6 +74,7 @@ export default async function OrderDonePage({
         </Container>
       </main>
       <Footer />
+      <StorefrontToaster />
     </MotionProvider>
   );
 }

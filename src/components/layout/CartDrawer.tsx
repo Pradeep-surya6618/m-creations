@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
+import { toast } from "sonner";
 import { useCartStore } from "@/store/cart";
 import { useUIStore } from "@/store/ui";
 import type { Product } from "@/types/product";
@@ -143,7 +144,7 @@ export function CartDrawer({ products }: { products: Product[] }) {
                           />
                           <button
                             type="button"
-                            onClick={() => remove(l.productId)}
+                            onClick={() => { remove(l.productId); toast.success("Removed"); }}
                             aria-label={`Remove ${l.product.name} from cart`}
                             className="text-xs text-brand-ink-muted hover:text-brand-pink underline-offset-2 hover:underline cursor-pointer"
                           >

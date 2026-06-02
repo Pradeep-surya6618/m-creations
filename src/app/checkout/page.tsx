@@ -9,6 +9,7 @@ import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { CheckoutEmptyGuard } from "@/components/checkout/CheckoutEmptyGuard";
 import { getAllProducts } from "@/lib/catalog";
+import { StorefrontToaster } from "@/components/storefront/StorefrontToaster";
 
 export const metadata: Metadata = {
   title: "Checkout",
@@ -35,6 +36,7 @@ export default async function CheckoutPage() {
       </main>
       <Footer />
       <CartDrawer products={products} />
+      <StorefrontToaster />
     </MotionProvider>
   );
 }

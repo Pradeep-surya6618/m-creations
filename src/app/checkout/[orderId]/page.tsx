@@ -10,6 +10,7 @@ import { UpiQr } from "@/components/checkout/UpiQr";
 import { PaymentUpload } from "@/components/checkout/PaymentUpload";
 import { getOrderByOrderId } from "@/lib/orders";
 import { getAllProducts } from "@/lib/catalog";
+import { StorefrontToaster } from "@/components/storefront/StorefrontToaster";
 
 export const metadata: Metadata = {
   title: "Complete Payment",
@@ -63,6 +64,7 @@ export default async function PaymentPage({
       </main>
       <Footer />
       <CartDrawer products={products} />
+      <StorefrontToaster />
     </MotionProvider>
   );
 }

@@ -10,6 +10,7 @@ import { useWishlistStore } from "@/store/wishlist";
 import { useUIStore } from "@/store/ui";
 import type { Product } from "@/types/product";
 import { cn } from "@/lib/cn";
+import { toast } from "sonner";
 
 type Props = {
   product: Product;
@@ -26,8 +27,13 @@ export function ProductCard({ product, categoryLabel }: Props) {
   const outOfStock = product.stock <= 0;
 
   const handleAdd = () => {
-    add(product.id);
-    openCart();
+    try {
+      add(product.id);
+      openCart();
+      toast.success("Added to cart");
+    } catch {
+      toast.error("Couldn't add — try again");
+    }
   };
 
   return (
@@ -62,7 +68,10 @@ export function ProductCard({ product, categoryLabel }: Props) {
 
       <button
         type="button"
-        onClick={() => toggleWish(product.id)}
+        onClick={() => {
+          toggleWish(product.id);
+          toast.success(isWished ? "Removed from wishlist" : "Saved to wishlist");
+        }}
         aria-label={isWished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
         aria-pressed={isWished}
         className={cn(

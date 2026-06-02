@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { isAllowedImage } from "@/lib/upload";
 import { useCartStore } from "@/store/cart";
 import { Button } from "@/components/ui/Button";
@@ -54,13 +55,16 @@ export function PaymentUpload({ orderId }: { orderId: string }) {
           return;
         }
         setError(json.error ?? "Something went wrong. Please try again.");
+        toast.error(json.error ?? "Upload failed — please try again");
         setSubmitting(false);
         return;
       }
       clearCart();
+      toast.success("Payment proof submitted");
       router.push(`/checkout/${orderId}/done`);
     } catch {
       setError("Network error — please try again.");
+      toast.error("Network error — please try again");
       setSubmitting(false);
     }
   };
