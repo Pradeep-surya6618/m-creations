@@ -13,7 +13,7 @@ export default function AdminLoginPage() {
   return (
     <>
       <AdminToaster />
-      <main className="min-h-screen grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] bg-brand-cream">
+      <main className="min-h-screen grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] bg-brand-cream overflow-hidden">
         {/* === LEFT — Cover image with brand overlay === */}
         <aside className="relative hidden lg:flex items-end overflow-hidden">
           <Image
@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
         </aside>
 
         {/* === RIGHT — Sign-in card === */}
-        <section className="relative flex items-center justify-center px-6 py-12 sm:px-10">
+        <section className="relative flex items-center justify-center px-6 py-12 sm:px-10 overflow-hidden">
           {/* Soft floral background on mobile (lg+ uses the image side) */}
           <div className="absolute inset-0 lg:hidden bg-gradient-to-br from-brand-blush/40 via-brand-cream to-brand-pink-soft/15" />
           <div className="pointer-events-none absolute -top-32 -right-32 h-[400px] w-[400px] rounded-full bg-brand-pink/10 blur-3xl" />
