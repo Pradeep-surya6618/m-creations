@@ -7,7 +7,19 @@ async function main() {
     process.exit(1);
   }
   const out = await hash(password, 10);
-  console.log(out);
+
+  // Next.js's env loader (@next/env + dotenv-expand) treats `$` as a
+  // variable-reference prefix, so each `$` in the bcrypt hash must be
+  // escaped with a backslash inside .env.local. Print the escaped form
+  // ready to paste.
+  const escaped = out.replace(/\$/g, "\\$");
+
+  console.log("");
+  console.log("Bcrypt hash (raw):", out);
+  console.log("");
+  console.log("Paste this line into .env.local exactly as shown:");
+  console.log(`ADMIN_PASSWORD_HASH=${escaped}`);
+  console.log("");
 }
 
 main().catch((e) => {
