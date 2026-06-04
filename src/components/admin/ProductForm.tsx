@@ -9,20 +9,29 @@ import { z } from "zod";
 import { productSchema, type ProductInput } from "@/lib/validation/product";
 import { createProduct, updateProduct } from "@/actions/productAdmin";
 import { AdminButton } from "./AdminButton";
+import { AdminSelect } from "./AdminSelect";
 import { MultiImagePicker } from "./MultiImagePicker";
+import {
+  CharCount,
+  Field,
+  FormSection,
+  fieldClasses,
+} from "./AdminFormPrimitives";
 import type { Category } from "@/types/product";
 
-const field =
-  "w-full rounded-xl border border-brand-blush bg-white px-4 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink";
+// Hard caps come from the zod schema — single source of truth for the
+// counter in the description field.
+const SHORT_DESCRIPTION_MAX = 200;
 
-// RHF works with the zod _input_ type (featured is optional there due to .default(false)).
-// The actions receive the validated output (ProductInput = z.output), so we cast on submit.
+// RHF works with the zod _input_ type (featured is optional there due to
+// .default(false)). The actions receive the validated output (ProductInput
+// = z.output), so we cast on submit.
 type FormValues = z.input<typeof productSchema>;
 
 type Props = {
   categories: Category[];
   mode: "create" | "edit";
-  productMongoId?: string; // hex _id for updates
+  productMongoId?: string;
   initial?: ProductInput & { slug: string };
 };
 
@@ -63,6 +72,9 @@ export function ProductForm({ categories, mode, productMongoId, initial }: Props
 
   const detailsArr = useFieldArray({ control, name: "handmadeDetails" as never });
 
+  const shortDescLen = (watch("shortDescription") ?? "").length;
+  const shortDescOver = shortDescLen > SHORT_DESCRIPTION_MAX;
+
   const onSubmit = handleSubmit(async (data) => {
     setSubmitting(true);
     // zodResolver validates and coerces to ProductInput (output type); cast is safe.
@@ -85,72 +97,162 @@ export function ProductForm({ categories, mode, productMongoId, initial }: Props
     setValue("slug", slugify(name));
   }
 
+  const categoryOptions = categories.map((c) => ({ value: c.slug, label: c.name }));
+
   return (
     <form onSubmit={onSubmit} className="space-y-6 w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <label className="block">
-          <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Name</span>
-          <input className={field} {...register("name")} />
-          {errors.name && <span className="text-xs text-brand-pink">{errors.name.message}</span>}
-        </label>
-        <label className="block">
-          <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">
-            Slug {isEdit && <span className="text-brand-pink-dark">(permanent)</span>}
-          </span>
-          <input className={field} {...register("slug")} disabled={isEdit} />
-          {errors.slug && <span className="text-xs text-brand-pink">{errors.slug.message}</span>}
-          {isEdit && (
-            <p className="mt-1 text-[10px] text-brand-ink-muted">
-              Slugs are permanent — create a new entry to change the URL.
-            </p>
-          )}
-        </label>
-        <label className="block">
-          <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Category</span>
-          <select className={field} {...register("category")}>
-            {categories.map((c) => (
-              <option key={c.slug} value={c.slug}>{c.name}</option>
-            ))}
-          </select>
-        </label>
-        <label className="block">
-          <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Price (₹)</span>
-          <input className={field} type="number" {...register("price", { valueAsNumber: true })} />
-          {errors.price && <span className="text-xs text-brand-pink">{errors.price.message}</span>}
-        </label>
-        <label className="block">
-          <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Stock</span>
-          <input className={field} type="number" {...register("stock", { valueAsNumber: true })} />
-        </label>
-        <label className="flex items-center gap-3 mt-7">
-          <input type="checkbox" {...register("featured")} />
-          <span className="text-sm">Featured on home</span>
-        </label>
-      </div>
+      {/* ─── Basics ─────────────────────────────────────────────────────── */}
+      <FormSection
+        title="Basics"
+        subtitle="Display name and the URL slug used in the storefront."
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <Field label="Name" error={errors.name?.message}>
+            <input
+              className={fieldClasses(errors.name)}
+              placeholder="e.g. Rose Garden Bouquet"
+              {...register("name")}
+            />
+          </Field>
+          <Field
+            label="Slug"
+            hint={isEdit ? "Permanent — create a new entry to change the URL." : "lowercase-kebab-case"}
+            error={errors.slug?.message}
+          >
+            <input
+              className={fieldClasses(errors.slug)}
+              placeholder="rose-garden-bouquet"
+              disabled={isEdit}
+              {...register("slug")}
+            />
+          </Field>
+        </div>
+      </FormSection>
 
-      <label className="block">
-        <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Short description</span>
-        <textarea className={field} rows={3} {...register("shortDescription")} />
-        {errors.shortDescription && (
-          <span className="text-xs text-brand-pink">{errors.shortDescription.message}</span>
-        )}
-      </label>
+      {/* ─── Pricing & inventory ───────────────────────────────────────── */}
+      <FormSection
+        title="Pricing & inventory"
+        subtitle="Category, list price, stock on hand, and whether it appears on the home page."
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <Field label="Category" error={errors.category?.message}>
+            <Controller
+              control={control}
+              name="category"
+              render={({ field }) => (
+                <AdminSelect
+                  value={field.value}
+                  options={categoryOptions}
+                  onChange={field.onChange}
+                  placeholder="Choose a category"
+                  error={errors.category?.message}
+                />
+              )}
+            />
+          </Field>
+          <Field label="Price (₹)" error={errors.price?.message}>
+            <input
+              type="number"
+              inputMode="numeric"
+              min={0}
+              className={fieldClasses(errors.price)}
+              placeholder="0"
+              {...register("price", { valueAsNumber: true })}
+            />
+          </Field>
+          <Field label="Stock" error={errors.stock?.message}>
+            <input
+              type="number"
+              inputMode="numeric"
+              min={0}
+              className={fieldClasses(errors.stock)}
+              placeholder="0"
+              {...register("stock", { valueAsNumber: true })}
+            />
+          </Field>
+          {/* Featured — premium checkbox styled as a toggle card */}
+          <Field label="Visibility">
+            <label className="flex items-center gap-3 h-[50px] px-4 rounded-xl border border-brand-blush bg-white cursor-pointer hover:border-brand-pink/60 transition-colors">
+              <input
+                type="checkbox"
+                className="h-4 w-4 accent-brand-pink cursor-pointer"
+                {...register("featured")}
+              />
+              <span className="text-sm text-brand-ink">Featured on home</span>
+            </label>
+          </Field>
+        </div>
+      </FormSection>
 
-      <div>
-        <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Handmade details</span>
-        <div className="space-y-2">
+      {/* ─── Description ────────────────────────────────────────────────── */}
+      <FormSection
+        title="Description"
+        subtitle="A short paragraph shown beneath the product name."
+      >
+        <Field
+          label="Short description"
+          error={errors.shortDescription?.message}
+          rightSlot={<CharCount value={shortDescLen} max={SHORT_DESCRIPTION_MAX} />}
+        >
+          <textarea
+            className={`${fieldClasses(errors.shortDescription)} resize-y`}
+            rows={4}
+            maxLength={SHORT_DESCRIPTION_MAX}
+            placeholder="Describe what makes this piece special…"
+            {...register("shortDescription")}
+          />
+        </Field>
+      </FormSection>
+
+      {/* ─── Handmade details ──────────────────────────────────────────── */}
+      <FormSection
+        title="Handmade details"
+        subtitle="Bullet points shown in the product page sidebar (max 10)."
+      >
+        <div className="space-y-2.5">
           {detailsArr.fields.map((f, i) => (
             <div key={f.id} className="flex gap-2">
-              <input className={field} {...register(`handmadeDetails.${i}` as const)} />
-              <AdminButton type="button" variant="ghost" size="sm" onClick={() => detailsArr.remove(i)}>✕</AdminButton>
+              <input
+                className={fieldClasses()}
+                placeholder={`Detail ${i + 1}`}
+                {...register(`handmadeDetails.${i}` as const)}
+              />
+              <button
+                type="button"
+                onClick={() => detailsArr.remove(i)}
+                aria-label={`Remove detail ${i + 1}`}
+                className="shrink-0 h-[50px] w-[50px] inline-flex items-center justify-center rounded-xl border border-brand-blush bg-white text-brand-ink-muted hover:text-red-600 hover:border-red-300 transition-colors cursor-pointer"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
+                  <path
+                    d="M4 4l8 8M12 4l-8 8"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
             </div>
           ))}
-          <AdminButton type="button" variant="secondary" size="sm" onClick={() => detailsArr.append("")}>+ Detail</AdminButton>
+          {detailsArr.fields.length < 10 && (
+            <AdminButton
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={() => detailsArr.append("")}
+            >
+              + Add detail
+            </AdminButton>
+          )}
         </div>
-      </div>
+      </FormSection>
 
-      <div>
-        <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Images</span>
+      {/* ─── Media ──────────────────────────────────────────────────────── */}
+      <FormSection
+        title="Images"
+        subtitle="Up to 6 photos. The first one is the cover."
+      >
         <Controller
           control={control}
           name="images"
@@ -158,15 +260,24 @@ export function ProductForm({ categories, mode, productMongoId, initial }: Props
             <MultiImagePicker value={field.value} onChange={field.onChange} />
           )}
         />
-        {errors.images && <span className="text-xs text-brand-pink">{(errors.images as { message?: string }).message}</span>}
-      </div>
+        {errors.images && (
+          <span className="block mt-2 text-[11px] font-semibold text-red-600">
+            {(errors.images as { message?: string }).message}
+          </span>
+        )}
+      </FormSection>
 
-      <div className="flex gap-3 pt-4 border-t border-brand-blush">
-        <AdminButton type="submit" disabled={submitting}>
-          {submitting ? "Saving…" : isEdit ? "Save" : "Create Product"}
-        </AdminButton>
-        <AdminButton href="/admin/products" variant="ghost">Cancel</AdminButton>
-      </div>
+      {/* ─── Footer ─────────────────────────────────────────────────────── */}
+      <footer className="flex items-center gap-3 pt-2">
+        <div className="ml-auto flex items-center gap-3">
+          <AdminButton href="/admin/products" variant="ghost">
+            Cancel
+          </AdminButton>
+          <AdminButton type="submit" disabled={submitting || shortDescOver}>
+            {submitting ? "Saving…" : isEdit ? "Save" : "Create Product"}
+          </AdminButton>
+        </div>
+      </footer>
     </form>
   );
 }
