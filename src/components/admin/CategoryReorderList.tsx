@@ -57,7 +57,7 @@ export function CategoryReorderList({ initial }: { initial: Row[] }) {
               }}
               onDrop={() => onDrop(idx)}
               className={cn(
-                "group relative flex items-center gap-4 px-4 sm:px-6 py-3.5 border-b border-brand-blush/60 last:border-b-0 transition-all",
+                "group relative flex items-center gap-2.5 sm:gap-4 px-3 sm:px-6 py-3 sm:py-3.5 border-b border-brand-blush/60 last:border-b-0 transition-all",
                 isDragging && "opacity-40",
                 isDropTarget && "bg-brand-blush/30",
                 !isDragging && "hover:bg-brand-cream/50"
@@ -68,7 +68,7 @@ export function CategoryReorderList({ initial }: { initial: Row[] }) {
                 aria-hidden
                 className="shrink-0 text-brand-ink-muted/60 group-hover:text-brand-pink cursor-grab active:cursor-grabbing transition-colors"
               >
-                <svg width="14" height="20" viewBox="0 0 14 20" fill="currentColor" aria-hidden>
+                <svg width="12" height="18" viewBox="0 0 14 20" fill="currentColor" aria-hidden className="sm:w-[14px] sm:h-[20px]">
                   <circle cx="4" cy="4" r="1.5" />
                   <circle cx="10" cy="4" r="1.5" />
                   <circle cx="4" cy="10" r="1.5" />
@@ -79,7 +79,7 @@ export function CategoryReorderList({ initial }: { initial: Row[] }) {
               </span>
 
               {/* Thumbnail */}
-              <div className="relative h-12 w-12 shrink-0 rounded-xl overflow-hidden bg-brand-blush ring-1 ring-brand-blush/80">
+              <div className="relative h-10 w-10 sm:h-12 sm:w-12 shrink-0 rounded-xl overflow-hidden bg-brand-blush ring-1 ring-brand-blush/80">
                 {c.image ? (
                   <Image
                     src={c.image}
@@ -96,37 +96,40 @@ export function CategoryReorderList({ initial }: { initial: Row[] }) {
                 )}
               </div>
 
-              {/* Name + slug */}
+              {/* Name + slug (slug hidden on mobile to let name breathe) */}
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-brand-ink truncate">{c.name}</p>
-                <p className="text-[11px] text-brand-ink-muted font-mono mt-0.5 truncate">
+                <p className="font-semibold text-brand-ink truncate text-sm sm:text-base">
+                  {c.name}
+                </p>
+                <p className="hidden sm:block text-[11px] text-brand-ink-muted font-mono mt-0.5 truncate">
                   {c.slug}
                 </p>
               </div>
 
-              {/* Product count pill */}
+              {/* Product count pill — number-only on mobile, with label on sm+ */}
               <span
                 className={cn(
-                  "shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold tabular-nums",
+                  "shrink-0 inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full text-[11px] font-bold tabular-nums",
                   c.productCount === 0
                     ? "bg-brand-cream text-brand-ink-muted"
                     : "bg-brand-blush/60 text-brand-pink-dark"
                 )}
               >
                 {c.productCount}
-                <span className="text-[10px] uppercase tracking-wider opacity-80">
+                <span className="hidden sm:inline text-[10px] uppercase tracking-wider opacity-80">
                   {c.productCount === 1 ? "prod" : "prods"}
                 </span>
               </span>
 
-              {/* Edit */}
+              {/* Edit — icon-only on mobile, label+icon on sm+ */}
               <Link
                 href={`/admin/categories/${c.mongoId}/edit`}
+                aria-label={`Edit ${c.name}`}
                 className="shrink-0 inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-brand-pink hover:text-brand-pink-dark cursor-pointer transition-colors"
               >
-                Edit
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden>
-                  <path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <span className="hidden sm:inline">Edit</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden className="sm:w-[12px] sm:h-[12px]">
+                  <path d="M5 2l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
             </li>

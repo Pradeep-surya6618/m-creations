@@ -50,10 +50,10 @@ export default async function AdminProductsList({
       </header>
 
       {/* ─── Stat strip ────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-3">
-        <StatPill label="Live" value={allProducts.length} tone="default" />
-        <StatPill label="Low stock" value={totalLow} tone={totalLow > 0 ? "warn" : "default"} />
-        <StatPill label="Out of stock" value={totalOut} tone={totalOut > 0 ? "alert" : "default"} />
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        <StatPill labelLong="Live" labelShort="Live" value={allProducts.length} tone="default" />
+        <StatPill labelLong="Low stock" labelShort="Low" value={totalLow} tone={totalLow > 0 ? "warn" : "default"} />
+        <StatPill labelLong="Out of stock" labelShort="Out" value={totalOut} tone={totalOut > 0 ? "alert" : "default"} />
       </div>
 
       {/* ─── Filter bar ────────────────────────────────────────────────── */}
@@ -169,11 +169,11 @@ export default async function AdminProductsList({
                 <li key={p.id}>
                   <Link
                     href={`/admin/products/${p.id}/edit`}
-                    className="flex items-center gap-3 px-4 py-3 active:bg-brand-cream/60 cursor-pointer"
+                    className="flex items-center gap-2.5 px-3 py-3 active:bg-brand-cream/60 cursor-pointer"
                   >
-                    <div className="relative h-14 w-14 shrink-0 rounded-xl overflow-hidden bg-brand-blush">
+                    <div className="relative h-12 w-12 shrink-0 rounded-xl overflow-hidden bg-brand-blush">
                       {p.images[0] ? (
-                        <Image src={p.images[0]} alt={p.name} fill sizes="56px" unoptimized className="object-cover" />
+                        <Image src={p.images[0]} alt={p.name} fill sizes="48px" unoptimized className="object-cover" />
                       ) : (
                         <div className="h-full w-full flex items-center justify-center text-brand-pink/60 text-sm font-bold">
                           {p.name.charAt(0).toUpperCase()}
@@ -181,14 +181,13 @@ export default async function AdminProductsList({
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="font-semibold text-brand-ink truncate">{p.name}</p>
+                      <div className="flex items-center gap-1.5">
+                        <p className="font-semibold text-brand-ink truncate text-sm">{p.name}</p>
                         {p.featured && <FeaturedStar on small />}
                       </div>
-                      <div className="mt-1 flex items-center gap-2 flex-wrap">
+                      <div className="mt-0.5 flex items-center gap-1.5 flex-wrap">
                         <CategoryChip slug={p.category} name={categoryNameBySlug.get(p.category) ?? p.category} />
-                        <span className="text-xs text-brand-ink-muted">·</span>
-                        <span className="text-sm font-semibold text-brand-ink tabular-nums">{formatPrice(p.price)}</span>
+                        <span className="text-xs font-semibold text-brand-ink tabular-nums">{formatPrice(p.price)}</span>
                       </div>
                     </div>
                     <StockPill stock={p.stock} />
@@ -208,18 +207,20 @@ export default async function AdminProductsList({
    ────────────────────────────────────────────────────────────────────── */
 
 function StatPill({
-  label,
+  labelLong,
+  labelShort,
   value,
   tone,
 }: {
-  label: string;
+  labelLong: string;
+  labelShort: string;
   value: number;
   tone: "default" | "warn" | "alert";
 }) {
   return (
     <div
       className={cn(
-        "rounded-2xl border bg-white px-4 py-3 flex items-center gap-3 shadow-petal-sm transition-shadow",
+        "rounded-2xl border bg-white px-3 py-2.5 sm:px-4 sm:py-3 flex items-center gap-2.5 sm:gap-3 shadow-petal-sm transition-shadow",
         tone === "alert" && "border-red-200",
         tone === "warn" && "border-amber-200",
         tone === "default" && "border-brand-blush"
@@ -227,7 +228,7 @@ function StatPill({
     >
       <span
         className={cn(
-          "h-9 w-9 inline-flex items-center justify-center rounded-full text-sm font-bold tabular-nums",
+          "h-8 w-8 sm:h-9 sm:w-9 shrink-0 inline-flex items-center justify-center rounded-full text-sm font-bold tabular-nums",
           tone === "alert" && "bg-red-50 text-red-600",
           tone === "warn" && "bg-amber-50 text-amber-700",
           tone === "default" && "bg-brand-blush text-brand-pink-dark"
@@ -235,8 +236,9 @@ function StatPill({
       >
         {value}
       </span>
-      <span className="text-[11px] uppercase tracking-[0.18em] text-brand-ink-muted font-bold">
-        {label}
+      <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-brand-ink-muted font-bold leading-tight">
+        <span className="sm:hidden">{labelShort}</span>
+        <span className="hidden sm:inline">{labelLong}</span>
       </span>
     </div>
   );
