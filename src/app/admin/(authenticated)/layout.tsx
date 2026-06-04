@@ -4,6 +4,7 @@ import { AdminAppBar } from "@/components/admin/AdminAppBar";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminBottomBar } from "@/components/admin/AdminBottomBar";
 import { AdminToaster } from "@/components/admin/AdminToaster";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { getDb } from "@/lib/mongodb";
 
 async function countPendingVerifications(): Promise<number> {
@@ -25,15 +26,17 @@ export default async function AdminAuthenticatedLayout({
   const pendingCount = await countPendingVerifications();
 
   return (
-    <div className="min-h-screen bg-brand-cream text-brand-ink">
-      <AdminAppBar adminEmail={session.email} pendingCount={pendingCount} />
-      <div className="flex">
-        <AdminSidebar pendingCount={pendingCount} />
-        {/* Bottom padding on mobile so content isn't hidden behind the fixed bottom bar */}
-        <main className="flex-1 min-w-0 p-4 md:p-8 pb-24 md:pb-8">{children}</main>
+    <MotionProvider>
+      <div className="min-h-screen bg-brand-cream text-brand-ink">
+        <AdminAppBar adminEmail={session.email} pendingCount={pendingCount} />
+        <div className="flex">
+          <AdminSidebar pendingCount={pendingCount} />
+          {/* Bottom padding on mobile so content isn't hidden behind the fixed bottom bar */}
+          <main className="flex-1 min-w-0 p-4 md:p-8 pb-24 md:pb-8">{children}</main>
+        </div>
+        <AdminBottomBar pendingCount={pendingCount} />
+        <AdminToaster />
       </div>
-      <AdminBottomBar pendingCount={pendingCount} />
-      <AdminToaster />
-    </div>
+    </MotionProvider>
   );
 }
