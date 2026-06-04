@@ -39,7 +39,7 @@ export async function getHeroContent(): Promise<HeroContent> {
   const doc = await (await col()).findOne({ _id: "hero" } as Filter<ContentDoc>);
   return {
     image: toUrl(doc?.image),
-    eyebrow: doc?.fields?.eyebrow ?? "Est. Madurai · Handmade",
+    eyebrow: doc?.fields?.eyebrow ?? "Est. Udumalpet · Handmade",
     tagline:
       doc?.fields?.tagline ??
       "Handmade flowers crafted with love — one petal at a time, made just for you.",

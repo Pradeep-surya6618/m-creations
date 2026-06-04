@@ -43,7 +43,7 @@ export default async function Image() {
             textTransform: "uppercase",
           }}
         >
-          Handmade flowers · Madurai
+          Handmade flowers · Udumalpet
         </div>
       </div>
     ),

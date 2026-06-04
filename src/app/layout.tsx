@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     template: "%s · Maria Creations",
   },
   description:
-    "Handmade flowers crafted with love. Bouquets, candle florals, and decorative pieces from Madurai.",
+    "Handmade flowers crafted with love. Bouquets, candle florals, and decorative pieces from Udumalpet.",
   openGraph: {
     title: "Maria Creations · Handmade Flowers",
-    description: "Handmade flowers crafted with love. Made in Madurai.",
+    description: "Handmade flowers crafted with love. Made in Udumalpet.",
     siteName: "Maria Creations",
     type: "website",
   },

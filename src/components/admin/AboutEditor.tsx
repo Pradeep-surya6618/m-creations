@@ -108,7 +108,7 @@ export function AboutEditor({ initial }: { initial: AboutInput }) {
             <textarea
               className={`${fieldClasses(errors.body)} font-mono resize-y`}
               rows={18}
-              placeholder="# Our story&#10;&#10;Maria Creations began in a small workshop in Madurai…"
+              placeholder="# Our story&#10;&#10;Maria Creations began in a small workshop in Udumalpet…"
               {...register("body")}
             />
           )}

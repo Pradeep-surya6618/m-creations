@@ -77,7 +77,7 @@ export function Footer() {
             © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
           </p>
           <p className="font-script text-lg text-brand-blush">
-            Handmade with love in Madurai
+            Handmade with love in Udumalpet
           </p>
         </div>
       </Container>

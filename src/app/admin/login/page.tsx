@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
             </p>
             <div className="mt-10 flex items-center gap-4 text-xs uppercase tracking-[0.25em] font-semibold opacity-80">
               <span className="h-px w-12 bg-white/60" />
-              <span>Est. Madurai</span>
+              <span>Est. Udumalpet</span>
             </div>
           </div>
         </aside>
@@ -90,7 +90,7 @@ export default function AdminLoginPage() {
             </div>
 
             <p className="mt-6 text-center text-[10px] uppercase tracking-[0.3em] text-brand-ink-muted">
-              Made with love · Madurai
+              Made with love · Udumalpet
             </p>
           </div>
         </section>

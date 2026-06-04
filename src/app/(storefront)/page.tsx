@@ -80,7 +80,7 @@ export default async function HomePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-brand-pink text-sm">✿</span>
-                  <span className="font-medium">Made in Madurai</span>
+                  <span className="font-medium">Made in Udumalpet</span>
                 </div>
               </div>
             </div>
@@ -194,7 +194,7 @@ export default async function HomePage() {
               </p>
               <ScriptHeading as="h2">Made just for you</ScriptHeading>
               <p className="mt-6 text-base text-brand-ink-muted leading-relaxed">
-                Every bloom is shaped by hand in our Madurai studio — no two are ever exactly alike.
+                Every bloom is shaped by hand in our Udumalpet studio — no two are ever exactly alike.
                 We use pipe cleaners, soft fabrics, and a quiet patience to make pieces that last
                 far longer than the bouquets they were inspired by.
               </p>

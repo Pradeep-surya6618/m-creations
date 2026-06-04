@@ -80,7 +80,7 @@ export function HeroEditor({ initial }: { initial: HeroInput }) {
                 <input
                   className={fieldClasses(errors.eyebrow)}
                   maxLength={EYEBROW_MAX}
-                  placeholder="Est. Madurai · Handmade"
+                  placeholder="Est. Udumalpet · Handmade"
                   {...register("eyebrow")}
                 />
               </Field>

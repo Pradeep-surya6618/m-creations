@@ -5,7 +5,7 @@ const valid = {
   name: "Surya",
   phone: "9876543210",
   addressLine1: "12 Flower St",
-  city: "Madurai",
+  city: "Udumalpet",
   state: "Tamil Nadu",
   pincode: "625001",
 };

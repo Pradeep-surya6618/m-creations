@@ -73,7 +73,7 @@ export default async function ShopPage({
       <p className="mt-3 text-brand-ink-muted max-w-xl text-sm">
         {categoryLabel
           ? categories.find((c) => c.slug === category)?.description
-          : "Every piece in our collection is handmade in Madurai. Browse by category or sort to find your favourite."}
+          : "Every piece in our collection is handmade in Udumalpet. Browse by category or sort to find your favourite."}
       </p>
 
       <div className="mt-8">
