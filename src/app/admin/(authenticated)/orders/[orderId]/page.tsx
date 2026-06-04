@@ -29,7 +29,13 @@ export default async function AdminOrderDetail({
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        <AdminCard title="Customer & Items">
+        {/* Customer card stays put while the admin scrolls the payment
+            screenshot on the right. top-20 = h-16 appbar + 1rem breathing
+            room; only kicks in at lg+ so mobile still scrolls naturally. */}
+        <AdminCard
+          title="Customer & Items"
+          className="lg:sticky lg:top-20 lg:self-start"
+        >
           <dl className="grid grid-cols-2 gap-y-2 text-sm">
             <dt className="text-brand-ink-muted">Name</dt><dd>{order.customer.name}</dd>
             <dt className="text-brand-ink-muted">Phone</dt><dd>{order.customer.phone}</dd>
