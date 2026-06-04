@@ -37,17 +37,21 @@ export function AdminSidebar({ pendingCount }: Props) {
               // Native tooltip when collapsed so icon-only users still get the label
               title={collapsed ? item.label : undefined}
               className={cn(
-                "group relative flex items-center gap-3 rounded-xl text-xs font-semibold tracking-wide uppercase transition-all cursor-pointer",
-                collapsed ? "h-11 w-11 mx-auto justify-center" : "px-3 py-2.5",
+                "group relative flex items-center rounded-xl text-xs font-semibold tracking-wide uppercase transition-all cursor-pointer",
+                // Two distinct shapes: a 44px square when collapsed (gap removed
+                // so the lone icon truly centers under justify-center), or a
+                // full-width row with internal padding + 12px gap when expanded.
+                collapsed
+                  ? "h-11 w-11 mx-auto justify-center"
+                  : "px-3 py-2.5 gap-3",
                 active
                   ? "bg-brand-gradient text-white shadow-petal-sm"
                   : "text-brand-ink-muted hover:bg-brand-blush/50 hover:text-brand-pink-dark"
               )}
             >
-              {/* Icon */}
+              {/* Icon — only child when collapsed, so justify-center actually centers it. */}
               <span className="relative shrink-0 inline-flex items-center justify-center">
                 <item.Icon size={20} />
-                {/* When collapsed, render the pending badge on the icon itself */}
                 {showBadge && collapsed && (
                   <span
                     aria-label={`${pendingCount} pending`}
@@ -61,30 +65,24 @@ export function AdminSidebar({ pendingCount }: Props) {
                 )}
               </span>
 
-              {/* Label + badge — hidden when collapsed.
-                  We keep the element in the tree but fade/translate so the
-                  width transition has something to animate against. */}
-              <span
-                className={cn(
-                  "flex-1 whitespace-nowrap transition-all duration-200",
-                  collapsed
-                    ? "opacity-0 -translate-x-2 pointer-events-none w-0"
-                    : "opacity-100 translate-x-0"
-                )}
-              >
-                {item.label}
-              </span>
-              {showBadge && !collapsed && (
-                <span
-                  className={cn(
-                    "px-2 py-0.5 rounded-full text-[10px] font-bold transition-opacity duration-200",
-                    active
-                      ? "bg-white/25 text-white"
-                      : "bg-brand-blush text-brand-pink-dark"
+              {/* Label + inline badge — not rendered at all when collapsed,
+                  so they can't absorb flex space and shove the icon left. */}
+              {!collapsed && (
+                <>
+                  <span className="flex-1 whitespace-nowrap">{item.label}</span>
+                  {showBadge && (
+                    <span
+                      className={cn(
+                        "px-2 py-0.5 rounded-full text-[10px] font-bold",
+                        active
+                          ? "bg-white/25 text-white"
+                          : "bg-brand-blush text-brand-pink-dark"
+                      )}
+                    >
+                      {pendingCount}
+                    </span>
                   )}
-                >
-                  {pendingCount}
-                </span>
+                </>
               )}
             </Link>
           );
