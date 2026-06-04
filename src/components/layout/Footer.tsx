@@ -52,16 +52,6 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={BRAND.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
-                >
-                  WhatsApp
-                </a>
-              </li>
-              <li>
-                <a
                   href={`mailto:${BRAND.email}`}
                   className="hover:text-white transition-colors"
                 >

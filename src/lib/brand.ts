@@ -8,6 +8,5 @@ export const BRAND = {
   tagline: "Handmade flowers crafted with love",
   location: "Udumalpet, India",
   instagram: "https://instagram.com/mariacreations",
-  whatsapp: "https://wa.me/910000000000", // placeholder — user replaces with real number
   email: "hello@mariacreations.in",
 };

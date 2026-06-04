@@ -69,7 +69,7 @@ export default async function AboutPage() {
           </p>
           <p className="mt-4 text-base text-brand-ink-muted leading-relaxed">
             If there&apos;s a colour, size, or arrangement you&apos;re dreaming of that you don&apos;t see in the
-            shop, message me on Instagram or WhatsApp — I love a custom request.
+            shop, message me on Instagram — I love a custom request.
           </p>
         </Reveal>
       </div>

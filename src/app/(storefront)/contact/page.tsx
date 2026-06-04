@@ -17,12 +17,6 @@ const channels = [
     external: true,
   },
   {
-    label: "WhatsApp",
-    value: "Message us",
-    href: BRAND.whatsapp,
-    external: true,
-  },
-  {
     label: "Email",
     value: BRAND.email,
     href: `mailto:${BRAND.email}`,
