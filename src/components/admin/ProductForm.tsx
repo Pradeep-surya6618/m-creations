@@ -86,7 +86,7 @@ export function ProductForm({ categories, mode, productMongoId, initial }: Props
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6 max-w-3xl">
+    <form onSubmit={onSubmit} className="space-y-6 w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label className="block">
           <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Name</span>

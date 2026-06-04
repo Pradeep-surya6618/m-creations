@@ -22,7 +22,7 @@ export default async function EditProductPage({
 
   const categories = await getAllCategories();
   return (
-    <div className="space-y-10 max-w-3xl">
+    <div className="space-y-10 w-full">
       <header>
         <h1 className="text-2xl font-bold">Edit {doc.name}</h1>
         <p className="text-xs text-brand-ink-muted mt-1 font-mono">{doc.productId}</p>

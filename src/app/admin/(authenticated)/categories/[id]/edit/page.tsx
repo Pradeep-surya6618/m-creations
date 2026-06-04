@@ -18,7 +18,7 @@ export default async function EditCategoryPage({
   if (!doc) notFound();
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 w-full">
       <h1 className="text-2xl font-bold">Edit {doc.name}</h1>
       <CategoryForm
         mode="edit"

@@ -64,7 +64,7 @@ export function CategoryForm({ mode, mongoId, initial }: Props) {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5 max-w-2xl">
+    <form onSubmit={onSubmit} className="space-y-5 w-full">
       <label className="block">
         <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Name</span>
         <input className={field} {...register("name")} />
