@@ -27,6 +27,10 @@ export default function AdminLoginPage() {
           {/* Layered overlays for legibility + brand mood */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-pink-dark/60 via-brand-pink/30 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/55 via-transparent to-transparent" />
+          {/* Pure-black wash anchored at bottom-left where the headline sits,
+              fading to transparent at top-right so the floral artwork stays
+              fully visible. Lifts text contrast without dulling the image. */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-black/65 via-black/20 to-transparent" />
           <FloatingPetals count={6} />
 
           <div className="relative z-10 p-12 text-white max-w-md">
