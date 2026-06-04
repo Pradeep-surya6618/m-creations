@@ -8,8 +8,12 @@ export type UpiParams = {
 };
 
 export function buildUpiUri({ payeeId, payeeName, amount, note }: UpiParams): string {
+  // `pa` (VPA) is sent RAW — encoding the `@` as `%40` makes UPI apps
+  // like GPay fail their NPCI name-resolution lookup ("Could not load
+  // banking name"). VPAs follow [a-zA-Z0-9._-]+@[a-zA-Z0-9]+ so they
+  // contain no characters that would break URI parsing anyway.
   const parts = [
-    `pa=${encodeURIComponent(payeeId)}`,
+    `pa=${payeeId}`,
     `pn=${encodeURIComponent(payeeName)}`,
     `am=${encodeURIComponent(String(amount))}`,
     `tn=${encodeURIComponent(note)}`,
