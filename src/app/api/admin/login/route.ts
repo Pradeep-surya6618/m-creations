@@ -109,10 +109,19 @@ export async function POST(request: Request) {
   clearFailures(ip);
   const token = await signAdminToken(adminEmail);
 
+  // `Secure` would be a hard requirement in production, but browsers refuse
+  // to store Secure cookies on plain HTTP — that breaks LAN testing on a
+  // phone hitting http://<laptop-ip>:4000 (localhost gets a special
+  // exemption, your phone doesn't). In dev we drop the flag; in prod we
+  // keep it so cookies never leak over HTTP.
+  const isProd = process.env.NODE_ENV === "production";
+  const cookieFlags = ["Path=/", "HttpOnly", "SameSite=Lax", `Max-Age=${SESSION_MAX_AGE}`];
+  if (isProd) cookieFlags.splice(1, 0, "Secure");
+
   const headers = new Headers();
   headers.append(
     "Set-Cookie",
-    `${SESSION_COOKIE_NAME}=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}`
+    `${SESSION_COOKIE_NAME}=${token}; ${cookieFlags.join("; ")}`
   );
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
