@@ -33,7 +33,7 @@ export function AboutEditor({ initial }: { initial: AboutInput }) {
   const body = watch("body");
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5 max-w-3xl">
+    <form onSubmit={onSubmit} className="space-y-5 w-full">
       <label className="block">
         <span className="block text-xs uppercase tracking-[0.15em] text-brand-ink-muted font-bold mb-2">Eyebrow</span>
         <input className={field} {...register("eyebrow")} />
