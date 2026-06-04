@@ -39,7 +39,9 @@ export function LoginForm() {
         setSubmitting(false);
         return;
       }
-      toast.success("Welcome back!");
+      // Toast must live on the destination — this page's <Toaster /> unmounts
+      // during the navigation. WelcomeFlash on the dashboard picks this up.
+      sessionStorage.setItem("mc:admin-welcome", "Welcome back!");
       router.push(next);
     } catch {
       toast.error("Network error.");

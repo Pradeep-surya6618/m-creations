@@ -3,6 +3,7 @@ import { getAdminSession } from "@/lib/adminSession";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminMobileTopbar } from "@/components/admin/AdminMobileTopbar";
 import { AdminToaster } from "@/components/admin/AdminToaster";
+import { WelcomeFlash } from "@/components/admin/WelcomeFlash";
 import { getDb } from "@/lib/mongodb";
 
 async function countPendingVerifications(): Promise<number> {
@@ -29,6 +30,7 @@ export default async function AdminAuthenticatedLayout({
       <AdminMobileTopbar adminEmail={session.email} pendingCount={pendingCount} />
       <main className="flex-1 min-w-0 p-4 md:p-8">{children}</main>
       <AdminToaster />
+      <WelcomeFlash />
     </div>
   );
 }
