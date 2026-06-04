@@ -22,7 +22,10 @@ export function AdminSidebar({ pendingCount }: Props) {
         collapsed ? "md:w-[72px]" : "md:w-[220px]"
       )}
     >
-      <nav className="flex-1 px-2 py-4 space-y-1 overflow-hidden">
+      {/* overflow-visible so tooltips on collapsed items can escape to the right.
+          Label-spill during the expand transition is contained by the label
+          span's own overflow-hidden + min-w-0 below. */}
+      <nav className="flex-1 px-2 py-4 space-y-1">
         {adminNav.map((item) => {
           const active =
             item.href === "/admin"
@@ -34,8 +37,10 @@ export function AdminSidebar({ pendingCount }: Props) {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              // Native tooltip when collapsed so icon-only users still get the label
-              title={collapsed ? item.label : undefined}
+              // When collapsed, expose the label to screen readers via aria-label
+              // since the visible content is icon-only. Custom tooltip below
+              // provides the visual hint.
+              aria-label={collapsed ? item.label : undefined}
               className={cn(
                 "group relative flex items-center rounded-xl text-xs font-semibold tracking-wide uppercase transition-all cursor-pointer",
                 // Two distinct shapes: a 44px square when collapsed (gap removed
@@ -66,10 +71,15 @@ export function AdminSidebar({ pendingCount }: Props) {
               </span>
 
               {/* Label + inline badge — not rendered at all when collapsed,
-                  so they can't absorb flex space and shove the icon left. */}
+                  so they can't absorb flex space and shove the icon left.
+                  overflow-hidden + min-w-0 contains the label width during the
+                  expand transition (otherwise the long text would spill past
+                  the sidebar's right edge mid-animation). */}
               {!collapsed && (
                 <>
-                  <span className="flex-1 whitespace-nowrap">{item.label}</span>
+                  <span className="flex-1 min-w-0 whitespace-nowrap overflow-hidden">
+                    {item.label}
+                  </span>
                   {showBadge && (
                     <span
                       className={cn(
@@ -83,6 +93,17 @@ export function AdminSidebar({ pendingCount }: Props) {
                     </span>
                   )}
                 </>
+              )}
+
+              {/* Custom tooltip — only present when collapsed. Fades in on
+                  hover/focus, anchored to the right of the icon button. */}
+              {collapsed && (
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 rounded-lg bg-brand-pink-dark text-white text-xs font-semibold whitespace-nowrap shadow-petal-md opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150 z-50"
+                >
+                  {item.label}
+                </span>
               )}
             </Link>
           );
