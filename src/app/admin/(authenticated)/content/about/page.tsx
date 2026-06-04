@@ -14,7 +14,15 @@ export default async function AboutPage() {
     <div className="space-y-6">
       <AdminBackLink href="/admin/content" label="Content" />
       <h1 className="text-2xl font-bold">About page</h1>
-      <AboutEditor initial={{ body: c.body, image: imageHex, eyebrow: c.eyebrow }} />
+      <AboutEditor
+        initial={{
+          body: c.body,
+          image: imageHex,
+          eyebrow: c.eyebrow,
+          makerName: c.makerName,
+          makerStory: c.makerStory,
+        }}
+      />
     </div>
   );
 }

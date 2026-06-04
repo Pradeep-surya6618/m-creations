@@ -60,17 +60,12 @@ export default async function AboutPage() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-[10px] uppercase tracking-[0.3em] text-brand-ink-muted mb-3 font-semibold">
-            Made by Maria
+            Made by {c.makerName}
           </p>
           <ScriptHeading as="h2">Meet the maker</ScriptHeading>
-          <p className="mt-6 text-base text-brand-ink-muted leading-relaxed">
-            Hi, I&apos;m Maria — the hands behind every piece. I learned to make pipe-cleaner flowers
-            from my grandmother as a child, and I haven&apos;t really stopped since.
-          </p>
-          <p className="mt-4 text-base text-brand-ink-muted leading-relaxed">
-            If there&apos;s a colour, size, or arrangement you&apos;re dreaming of that you don&apos;t see in the
-            shop, message me on Instagram — I love a custom request.
-          </p>
+          <div className="mt-6 prose prose-sm max-w-none text-brand-ink-muted">
+            <MarkdownView body={c.makerStory} />
+          </div>
         </Reveal>
       </div>
 

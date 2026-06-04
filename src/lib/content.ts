@@ -11,6 +11,8 @@ export type AboutContent = {
   body: string;
   image: string | null;
   eyebrow: string;
+  makerName: string;
+  makerStory: string;
 };
 export type HeroContent = {
   image: string | null;
@@ -32,6 +34,8 @@ export async function getAboutContent(): Promise<AboutContent> {
     body: doc?.body ?? "",
     image: toUrl(doc?.image),
     eyebrow: doc?.fields?.eyebrow ?? "",
+    makerName: doc?.fields?.makerName ?? "Maria",
+    makerStory: doc?.fields?.makerStory ?? "",
   };
 }
 
@@ -53,6 +57,8 @@ export async function upsertAboutContent(input: {
   body: string;
   image: string | null;
   eyebrow: string;
+  makerName: string;
+  makerStory: string;
 }): Promise<void> {
   const c = await col();
   await c.updateOne(
@@ -61,7 +67,11 @@ export async function upsertAboutContent(input: {
       $set: {
         body: input.body,
         image: input.image ? new ObjectId(input.image) : undefined,
-        fields: { eyebrow: input.eyebrow },
+        fields: {
+          eyebrow: input.eyebrow,
+          makerName: input.makerName,
+          makerStory: input.makerStory,
+        },
         updatedAt: new Date(),
       },
     },

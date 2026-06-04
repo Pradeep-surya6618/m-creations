@@ -9,7 +9,8 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Reveal } from "@/components/motion/Reveal";
 import { getAllCategories, getFeaturedProducts } from "@/lib/catalog";
-import { getHeroContent } from "@/lib/content";
+import { getAboutContent, getHeroContent } from "@/lib/content";
+import { MarkdownView } from "@/components/storefront/MarkdownView";
 
 const categoryLabels: Record<string, string> = {
   bouquets: "BOUQUETS",
@@ -23,6 +24,7 @@ export default async function HomePage() {
   const featured = await getFeaturedProducts();
   const categories = await getAllCategories();
   const hero = await getHeroContent();
+  const about = await getAboutContent();
 
   return (
     <>
@@ -173,17 +175,22 @@ export default async function HomePage() {
 
       <SectionDivider />
 
-      {/* === BRAND STORY === */}
+      {/* === BRAND STORY ===
+          Image + maker story come from the About content document; the
+          eyebrow / headline / CTA stay fixed as part of the landing-page
+          design. Falls back to the bundled placeholder when no admin
+          image has been uploaded yet. */}
       <section className="py-12 lg:py-20">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <Reveal>
               <div className="relative aspect-square rounded-3xl overflow-hidden shadow-petal-md">
                 <Image
-                  src="/Handmade-2.jpeg"
-                  alt="Behind the scenes at Maria Creations"
+                  src={about.image ?? "/Handmade-2.jpeg"}
+                  alt={`Behind the scenes with ${about.makerName}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
+                  unoptimized={about.image?.startsWith("/api/images/") ?? false}
                   className="object-cover"
                 />
               </div>
@@ -193,14 +200,16 @@ export default async function HomePage() {
                 Handmade with Love
               </p>
               <ScriptHeading as="h2">Made just for you</ScriptHeading>
-              <p className="mt-6 text-base text-brand-ink-muted leading-relaxed">
-                Every bloom is shaped by hand in our Udumalpet studio — no two are ever exactly alike.
-                We use pipe cleaners, soft fabrics, and a quiet patience to make pieces that last
-                far longer than the bouquets they were inspired by.
-              </p>
-              <p className="mt-4 text-base text-brand-ink-muted leading-relaxed">
-                Whether it&apos;s a single rose or a candle wrapped in petals — it&apos;s made just for you.
-              </p>
+              {about.makerStory ? (
+                <div className="mt-6 prose prose-sm max-w-none text-brand-ink-muted">
+                  <MarkdownView body={about.makerStory} />
+                </div>
+              ) : (
+                <p className="mt-6 text-base text-brand-ink-muted leading-relaxed">
+                  Every bloom is shaped by hand — no two are ever exactly
+                  alike. Made just for you.
+                </p>
+              )}
               <div className="mt-8">
                 <Button href="/about" variant="outline" size="md">Our Story</Button>
               </div>

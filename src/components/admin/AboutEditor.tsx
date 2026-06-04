@@ -19,9 +19,12 @@ import {
 // Hard caps come from the zod schema.
 const EYEBROW_MAX = 80;
 const BODY_MAX = 10_000;
+const MAKER_NAME_MAX = 60;
+const MAKER_STORY_MAX = 2_000;
 
 export function AboutEditor({ initial }: { initial: AboutInput }) {
-  const [preview, setPreview] = useState(false);
+  const [bodyPreview, setBodyPreview] = useState(false);
+  const [makerPreview, setMakerPreview] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const {
@@ -36,9 +39,13 @@ export function AboutEditor({ initial }: { initial: AboutInput }) {
   });
 
   const body = watch("body") ?? "";
+  const makerStory = watch("makerStory") ?? "";
   const eyebrowLen = (watch("eyebrow") ?? "").length;
+  const makerNameLen = (watch("makerName") ?? "").length;
   const bodyLen = body.length;
+  const makerStoryLen = makerStory.length;
   const bodyOverMax = bodyLen > BODY_MAX;
+  const makerStoryOverMax = makerStoryLen > MAKER_STORY_MAX;
 
   const onSubmit = handleSubmit(async (data) => {
     setSubmitting(true);
@@ -92,15 +99,15 @@ export function AboutEditor({ initial }: { initial: AboutInput }) {
               <CharCount value={bodyLen} max={BODY_MAX} />
               <button
                 type="button"
-                onClick={() => setPreview((p) => !p)}
+                onClick={() => setBodyPreview((p) => !p)}
                 className="text-[11px] font-bold uppercase tracking-wider text-brand-pink hover:text-brand-pink-dark cursor-pointer transition-colors"
               >
-                {preview ? "Edit" : "Preview"}
+                {bodyPreview ? "Edit" : "Preview"}
               </button>
             </div>
           }
         >
-          {preview ? (
+          {bodyPreview ? (
             <div className="rounded-xl border border-brand-blush bg-white p-5 min-h-[18rem]">
               <MarkdownPreview body={body} />
             </div>
@@ -115,12 +122,66 @@ export function AboutEditor({ initial }: { initial: AboutInput }) {
         </Field>
       </FormSection>
 
+      <FormSection
+        title="Meet the maker"
+        subtitle="Personal intro shown next to the image on /about and reused as the home page brand-story block."
+      >
+        <div className="space-y-5">
+          <Field
+            label="Maker name"
+            hint='Appears as the "Made by ___" eyebrow above the section.'
+            error={errors.makerName?.message}
+            rightSlot={<CharCount value={makerNameLen} max={MAKER_NAME_MAX} />}
+          >
+            <input
+              className={fieldClasses(errors.makerName)}
+              maxLength={MAKER_NAME_MAX}
+              placeholder="Maria"
+              {...register("makerName")}
+            />
+          </Field>
+          <Field
+            label="Maker story (Markdown)"
+            error={errors.makerStory?.message}
+            rightSlot={
+              <div className="flex items-center gap-3">
+                <CharCount value={makerStoryLen} max={MAKER_STORY_MAX} />
+                <button
+                  type="button"
+                  onClick={() => setMakerPreview((p) => !p)}
+                  className="text-[11px] font-bold uppercase tracking-wider text-brand-pink hover:text-brand-pink-dark cursor-pointer transition-colors"
+                >
+                  {makerPreview ? "Edit" : "Preview"}
+                </button>
+              </div>
+            }
+          >
+            {makerPreview ? (
+              <div className="rounded-xl border border-brand-blush bg-white p-5 min-h-[10rem]">
+                <MarkdownPreview body={makerStory} />
+              </div>
+            ) : (
+              <textarea
+                className={`${fieldClasses(errors.makerStory)} font-mono resize-y`}
+                rows={8}
+                maxLength={MAKER_STORY_MAX}
+                placeholder="Hi, I'm Maria — the hands behind every piece. I learned…"
+                {...register("makerStory")}
+              />
+            )}
+          </Field>
+        </div>
+      </FormSection>
+
       <footer className="flex items-center gap-3 pt-2">
         <div className="ml-auto flex items-center gap-3">
           <AdminButton href="/admin/content" variant="ghost">
             Cancel
           </AdminButton>
-          <AdminButton type="submit" disabled={submitting || bodyOverMax}>
+          <AdminButton
+            type="submit"
+            disabled={submitting || bodyOverMax || makerStoryOverMax}
+          >
             {submitting ? "Saving…" : "Save"}
           </AdminButton>
         </div>
