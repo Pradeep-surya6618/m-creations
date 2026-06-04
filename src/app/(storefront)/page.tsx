@@ -218,44 +218,6 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <SectionDivider />
-
-      {/* === INSTAGRAM STRIP === */}
-      <section className="py-12 lg:py-16">
-        <Container>
-          <Reveal>
-            <div className="text-center mb-8">
-              <ScriptHeading as="h2" align="center">@mariacreations</ScriptHeading>
-              <p className="mt-3 text-sm text-brand-ink-muted">Follow along for new blooms and behind-the-scenes</p>
-            </div>
-          </Reveal>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <a
-                key={i}
-                href="https://instagram.com/mariacreations"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative aspect-square rounded-2xl overflow-hidden group"
-              >
-                <Image
-                  src={i % 2 === 0 ? "/Handmade-1.jpeg" : "/Handmade-2.jpeg"}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-brand-pink/0 group-hover:bg-brand-pink/30 transition-colors flex items-center justify-center">
-                  <span className="opacity-0 group-hover:opacity-100 text-white text-xs font-bold uppercase tracking-[0.2em] transition-opacity">
-                    @mariacreations
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </Container>
-      </section>
-
       {/* === FINAL CTA === */}
       <section className="my-12 lg:my-20">
         <Container>
