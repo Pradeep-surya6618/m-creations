@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { categorySchema, type CategoryInput } from "@/lib/validation/category";
 import { createCategory, updateCategory, deleteCategory } from "@/actions/categoryAdmin";
 import { AdminButton } from "./AdminButton";
+import { AdminConfirmDialog } from "./AdminConfirmDialog";
 import { ImagePicker } from "./ImagePicker";
 import {
   CharCount,
@@ -22,14 +23,18 @@ const DESCRIPTION_MAX = 200;
 type Props = {
   mode: "create" | "edit";
   mongoId?: string;
+  /** Live product count for this category — drives the delete dialog. */
+  productCount?: number;
   initial?: CategoryInput;
 };
 
-export function CategoryForm({ mode, mongoId, initial }: Props) {
+export function CategoryForm({ mode, mongoId, productCount = 0, initial }: Props) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const isEdit = mode === "edit";
+  const canDelete = productCount === 0;
 
   const {
     register,
@@ -59,9 +64,8 @@ export function CategoryForm({ mode, mongoId, initial }: Props) {
     }
   });
 
-  const onDelete = async () => {
+  const onConfirmDelete = async () => {
     if (!mongoId) return;
-    if (!confirm("Delete this category?")) return;
     setDeleting(true);
     const res = await deleteCategory(mongoId);
     if (res.ok) {
@@ -70,6 +74,7 @@ export function CategoryForm({ mode, mongoId, initial }: Props) {
     } else {
       toast.error(res.error);
       setDeleting(false);
+      setDeleteOpen(false);
     }
   };
 
@@ -137,10 +142,10 @@ export function CategoryForm({ mode, mongoId, initial }: Props) {
           <AdminButton
             type="button"
             variant="danger"
-            onClick={onDelete}
+            onClick={() => setDeleteOpen(true)}
             disabled={deleting}
           >
-            {deleting ? "Deleting…" : "Delete"}
+            Delete
           </AdminButton>
         )}
         <div className="ml-auto flex items-center gap-3">
@@ -152,6 +157,38 @@ export function CategoryForm({ mode, mongoId, initial }: Props) {
           </AdminButton>
         </div>
       </footer>
+
+      {/* Delete confirmation — info variant when products still reference
+          this category (server would refuse anyway, but we tell the user
+          upfront), danger variant when the category is empty. */}
+      <AdminConfirmDialog
+        open={deleteOpen}
+        onClose={() => {
+          if (!deleting) setDeleteOpen(false);
+        }}
+        variant={canDelete ? "danger" : "info"}
+        title={canDelete ? "Delete this category?" : "Can't delete yet"}
+        description={
+          canDelete ? (
+            <>
+              <span className="font-semibold text-white">{initial?.name}</span>{" "}
+              will be removed. This can't be undone.
+            </>
+          ) : (
+            <>
+              <span className="font-semibold text-white">{initial?.name}</span>{" "}
+              is used by{" "}
+              <span className="font-semibold text-white">
+                {productCount} {productCount === 1 ? "product" : "products"}
+              </span>
+              . Move or delete those products first, then come back.
+            </>
+          )
+        }
+        confirmLabel={canDelete ? "Delete category" : undefined}
+        onConfirm={canDelete ? onConfirmDelete : undefined}
+        loading={deleting}
+      />
     </form>
   );
 }

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { deleteProduct } from "@/actions/productAdmin";
 import { AdminButton } from "./AdminButton";
+import { AdminConfirmDialog } from "./AdminConfirmDialog";
 
 export function DeleteProductButton({
   productMongoId,
@@ -14,37 +15,58 @@ export function DeleteProductButton({
   productName: string;
 }) {
   const router = useRouter();
-  const [typed, setTyped] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-
-  const canSubmit = typed.trim().toLowerCase() === productName.toLowerCase();
+  const [open, setOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const onConfirm = async () => {
-    setSubmitting(true);
+    setDeleting(true);
     const res = await deleteProduct(productMongoId);
     if (res.ok) {
       toast.success("Product deleted");
       router.push("/admin/products");
     } else {
       toast.error(res.error);
-      setSubmitting(false);
+      setDeleting(false);
+      setOpen(false);
     }
   };
 
   return (
-    <div className="space-y-3 p-4 border border-red-200 rounded-2xl bg-red-50/40 max-w-md">
-      <p className="text-sm font-semibold text-red-700">Delete this product?</p>
-      <p className="text-xs text-brand-ink-muted">
-        Type <span className="font-mono">{productName}</span> to confirm.
-      </p>
-      <input
-        value={typed}
-        onChange={(e) => setTyped(e.target.value)}
-        className="w-full rounded border border-red-300 bg-white px-3 py-2 text-sm"
+    <>
+      <div className="flex items-center justify-between gap-4 p-5 rounded-2xl border border-red-200 bg-red-50/40">
+        <div>
+          <p className="text-sm font-semibold text-red-700">Danger zone</p>
+          <p className="mt-0.5 text-xs text-brand-ink-muted">
+            Permanently delete this product and all of its images from the catalog.
+          </p>
+        </div>
+        <AdminButton
+          type="button"
+          variant="danger"
+          onClick={() => setOpen(true)}
+        >
+          Delete
+        </AdminButton>
+      </div>
+
+      <AdminConfirmDialog
+        open={open}
+        onClose={() => {
+          if (!deleting) setOpen(false);
+        }}
+        variant="danger"
+        title="Delete this product?"
+        description={
+          <>
+            <span className="font-semibold text-white">{productName}</span>{" "}
+            will be removed from the catalog along with its images. This can't be
+            undone.
+          </>
+        }
+        confirmLabel="Delete product"
+        onConfirm={onConfirm}
+        loading={deleting}
       />
-      <AdminButton variant="danger" disabled={!canSubmit || submitting} onClick={onConfirm}>
-        {submitting ? "Deleting…" : "Delete"}
-      </AdminButton>
-    </div>
+    </>
   );
 }

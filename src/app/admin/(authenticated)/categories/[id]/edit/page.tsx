@@ -18,6 +18,12 @@ export default async function EditCategoryPage({
   const doc = await db.collection<CategoryDoc>("categories").findOne({ _id: new ObjectId(id) });
   if (!doc) notFound();
 
+  // How many products still reference this category — drives the delete
+  // confirmation dialog (info vs. danger variant).
+  const productCount = await db
+    .collection("products")
+    .countDocuments({ category: doc.slug });
+
   return (
     <div className="space-y-6 w-full">
       <AdminBackLink href="/admin/categories" label="Categories" />
@@ -25,6 +31,7 @@ export default async function EditCategoryPage({
       <CategoryForm
         mode="edit"
         mongoId={id}
+        productCount={productCount}
         initial={{
           name: doc.name,
           slug: doc.slug,
