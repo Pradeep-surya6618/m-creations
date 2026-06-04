@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Admin · Content" };
 
 export default function ContentHubPage() {
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 w-full">
       <h1 className="text-2xl font-bold">Content</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <AdminCard>

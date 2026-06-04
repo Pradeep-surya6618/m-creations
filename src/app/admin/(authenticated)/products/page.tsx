@@ -27,7 +27,7 @@ export default async function AdminProductsList({
   });
 
   return (
-    <div className="space-y-6 max-w-6xl">
+    <div className="space-y-6 w-full">
       <header className="flex items-end justify-between flex-wrap gap-3">
         <h1 className="text-2xl font-bold">Products ({allProducts.length})</h1>
         <AdminButton href="/admin/products/new" size="sm">+ New Product</AdminButton>

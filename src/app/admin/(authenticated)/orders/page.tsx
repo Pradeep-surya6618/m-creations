@@ -34,7 +34,7 @@ export default async function OrdersListPage({
   const orders = await listOrdersForAdmin(dbFilter as Parameters<typeof listOrdersForAdmin>[0]);
 
   return (
-    <div className="space-y-6 max-w-6xl">
+    <div className="space-y-6 w-full">
       <h1 className="text-2xl font-bold">Orders</h1>
 
       <div className="flex flex-wrap gap-2">

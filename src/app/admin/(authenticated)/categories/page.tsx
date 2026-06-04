@@ -19,7 +19,7 @@ export default async function CategoriesListPage() {
   );
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 w-full">
       <header className="flex items-end justify-between">
         <h1 className="text-2xl font-bold">Categories</h1>
         <AdminButton href="/admin/categories/new" size="sm">+ New Category</AdminButton>
