@@ -4,6 +4,7 @@ import { getDb } from "@/lib/mongodb";
 import { getAllCategories } from "@/lib/catalog";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { DeleteProductButton } from "@/components/admin/DeleteProductButton";
+import { AdminBackLink } from "@/components/admin/AdminBackLink";
 import type { ProductDoc } from "@/types/catalog";
 
 export const metadata: Metadata = { title: "Admin · Edit Product" };
@@ -23,9 +24,12 @@ export default async function EditProductPage({
   const categories = await getAllCategories();
   return (
     <div className="space-y-10 w-full">
-      <header>
-        <h1 className="text-2xl font-bold">Edit {doc.name}</h1>
-        <p className="text-xs text-brand-ink-muted mt-1 font-mono">{doc.productId}</p>
+      <header className="space-y-6">
+        <AdminBackLink href="/admin/products" label="Products" />
+        <div>
+          <h1 className="text-2xl font-bold">Edit {doc.name}</h1>
+          <p className="text-xs text-brand-ink-muted mt-1 font-mono">{doc.productId}</p>
+        </div>
       </header>
       <ProductForm
         categories={categories}

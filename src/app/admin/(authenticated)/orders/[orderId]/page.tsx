@@ -5,6 +5,7 @@ import { getOrderByOrderId } from "@/lib/orders";
 import { AdminCard } from "@/components/admin/AdminCard";
 import { formatPrice } from "@/lib/formatPrice";
 import { OrderActions } from "@/components/admin/OrderActions";
+import { AdminBackLink } from "@/components/admin/AdminBackLink";
 
 export const metadata: Metadata = { title: "Admin · Order" };
 
@@ -19,9 +20,12 @@ export default async function AdminOrderDetail({
 
   return (
     <div className="space-y-6 max-w-6xl">
-      <header>
-        <p className="text-[10px] uppercase tracking-[0.2em] text-brand-pink-dark font-bold">Order</p>
-        <h1 className="text-2xl font-bold mt-1">{order.orderId}</h1>
+      <header className="space-y-6">
+        <AdminBackLink href="/admin/orders" label="Orders" />
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-brand-pink-dark font-bold">Order</p>
+          <h1 className="text-2xl font-bold mt-1">{order.orderId}</h1>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">

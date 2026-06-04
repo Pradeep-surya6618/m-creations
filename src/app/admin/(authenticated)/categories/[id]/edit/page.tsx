@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import type { CategoryDoc } from "@/types/catalog";
 import { CategoryForm } from "@/components/admin/CategoryForm";
+import { AdminBackLink } from "@/components/admin/AdminBackLink";
 
 export const metadata = { title: "Admin · Edit Category" };
 
@@ -19,6 +20,7 @@ export default async function EditCategoryPage({
 
   return (
     <div className="space-y-6 w-full">
+      <AdminBackLink href="/admin/categories" label="Categories" />
       <h1 className="text-2xl font-bold">Edit {doc.name}</h1>
       <CategoryForm
         mode="edit"
