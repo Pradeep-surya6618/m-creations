@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const channels = [
   {
     label: "Instagram",
-    value: "@mariacreations",
+    value: "@_maria__creations_",
     href: BRAND.instagram,
     external: true,
   },
