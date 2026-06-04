@@ -12,9 +12,11 @@ export function AdminBottomBar({ pendingCount }: Props) {
   return (
     <nav
       aria-label="Admin sections"
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-brand-pink-dark text-white border-t border-brand-pink-dark pb-[env(safe-area-inset-bottom)]"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 px-3 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pointer-events-none"
     >
-      <ul className="grid grid-cols-5 h-16">
+      <ul
+        className="pointer-events-auto mx-auto max-w-md flex items-center justify-around gap-1 bg-brand-pink-dark rounded-full shadow-petal-lg p-1.5"
+      >
         {adminNav.map((item) => {
           const active =
             item.href === "/admin"
@@ -26,30 +28,44 @@ export function AdminBottomBar({ pendingCount }: Props) {
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
+                aria-label={item.label}
                 className={cn(
-                  "relative flex-1 flex flex-col items-center justify-center gap-1 text-[10px] uppercase tracking-wider font-semibold transition-colors cursor-pointer",
-                  active ? "text-white" : "text-white/65 hover:text-white"
+                  "h-11 flex items-center gap-2 rounded-full transition-all duration-300 ease-out cursor-pointer",
+                  active
+                    ? "bg-white/15 px-3.5"
+                    : "px-3 hover:bg-white/5 active:bg-white/10"
                 )}
               >
-                {/* Active indicator — petal-pink pill on top edge */}
-                {active && (
-                  <span
-                    aria-hidden
-                    className="absolute top-0 left-1/2 -translate-x-1/2 h-1 w-8 rounded-b-full bg-brand-gradient"
+                <span className="relative inline-flex items-center justify-center">
+                  <item.Icon
+                    size={20}
+                    className={cn(
+                      "transition-colors",
+                      active ? "text-white" : "text-white/60"
+                    )}
                   />
-                )}
-                <span className="relative text-lg leading-none">
-                  {item.icon}
                   {showBadge && (
                     <span
                       aria-label={`${pendingCount} pending`}
-                      className="absolute -top-1 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-white text-brand-pink-dark text-[9px] font-bold inline-flex items-center justify-center"
+                      className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-white text-brand-pink-dark text-[9px] font-bold inline-flex items-center justify-center"
                     >
                       {pendingCount}
                     </span>
                   )}
                 </span>
-                <span className="leading-none">{item.label}</span>
+
+                {/* Label only shows on the active item — animated via max-width
+                    + opacity so the pill grows smoothly rather than popping. */}
+                <span
+                  className={cn(
+                    "text-[13px] font-semibold whitespace-nowrap overflow-hidden transition-[max-width,opacity,margin] duration-300 ease-out",
+                    active
+                      ? "max-w-[140px] opacity-100 text-white"
+                      : "max-w-0 opacity-0"
+                  )}
+                >
+                  {item.label}
+                </span>
               </Link>
             </li>
           );

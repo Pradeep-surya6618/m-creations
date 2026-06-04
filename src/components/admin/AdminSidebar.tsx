@@ -45,8 +45,8 @@ export function AdminSidebar({ pendingCount }: Props) {
               )}
             >
               {/* Icon */}
-              <span className="relative w-4 text-base leading-none shrink-0 inline-flex items-center justify-center">
-                {item.icon}
+              <span className="relative shrink-0 inline-flex items-center justify-center">
+                <item.Icon size={20} />
                 {/* When collapsed, render the pending badge on the icon itself */}
                 {showBadge && collapsed && (
                   <span
