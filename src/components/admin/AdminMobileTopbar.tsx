@@ -111,7 +111,16 @@ export function AdminMobileTopbar({ adminEmail, pendingCount }: Props) {
               </nav>
               <div className="px-5 py-4 border-t border-brand-blush text-xs space-y-2">
                 <p className="text-brand-ink-muted truncate">{adminEmail}</p>
-                <form action="/api/admin/logout" method="post">
+                <form
+                  action="/api/admin/logout"
+                  method="post"
+                  onSubmit={() => {
+                    sessionStorage.setItem(
+                      "mc:admin-goodbye",
+                      "Signed out — see you soon!"
+                    );
+                  }}
+                >
                   <button
                     type="submit"
                     className="text-brand-pink font-semibold cursor-pointer hover:underline"
