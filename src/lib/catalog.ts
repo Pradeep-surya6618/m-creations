@@ -57,6 +57,17 @@ export async function getAllCategories(): Promise<Category[]> {
   return docs.map(mapCategoryDoc);
 }
 
+/** N newest categories by createdAt — used by the footer Shop column. */
+export async function getRecentCategories(limit = 5): Promise<Category[]> {
+  const col = await categoriesCol();
+  const docs = await col
+    .find({})
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .toArray();
+  return docs.map(mapCategoryDoc);
+}
+
 export async function getCategoryBySlug(
   slug: string
 ): Promise<Category | undefined> {

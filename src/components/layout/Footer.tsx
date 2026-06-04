@@ -1,14 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { BRAND } from "@/lib/brand";
-
-const shopLinks = [
-  { href: "/shop?category=bouquets", label: "Bouquets" },
-  { href: "/shop?category=pipe-cleaner", label: "Pipe Cleaner Flowers" },
-  { href: "/shop?category=flower-pots", label: "Flower Pots" },
-  { href: "/shop?category=gifts", label: "Floral Gifts" },
-  { href: "/shop?category=candle-floral", label: "Candle Florals" },
-];
+import { getRecentCategories } from "@/lib/catalog";
 
 const aboutLinks = [
   { href: "/about", label: "Our Story" },
@@ -16,7 +9,16 @@ const aboutLinks = [
   { href: "/shop", label: "All Products" },
 ];
 
-export function Footer() {
+export async function Footer() {
+  // Newest 5 categories drive the Shop column so the footer follows the
+  // admin's actual collection, not a hardcoded snapshot. Empty list (fresh
+  // install) gracefully falls back to a single "Browse all" link.
+  const recent = await getRecentCategories(5);
+  const shopLinks =
+    recent.length > 0
+      ? recent.map((c) => ({ href: `/shop?category=${c.slug}`, label: c.name }))
+      : [{ href: "/shop", label: "Browse all" }];
+
   return (
     <footer className="mt-24 pt-16 pb-12 bg-brand-pink-dark text-white">
       <Container>
