@@ -12,7 +12,7 @@ export function AdminBottomBar({ pendingCount }: Props) {
   return (
     <nav
       aria-label="Admin sections"
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-brand-blush pb-[env(safe-area-inset-bottom)]"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-brand-pink-dark text-white border-t border-brand-pink-dark pb-[env(safe-area-inset-bottom)]"
     >
       <ul className="grid grid-cols-5 h-16">
         {adminNav.map((item) => {
@@ -28,7 +28,7 @@ export function AdminBottomBar({ pendingCount }: Props) {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative flex-1 flex flex-col items-center justify-center gap-1 text-[10px] uppercase tracking-wider font-semibold transition-colors cursor-pointer",
-                  active ? "text-brand-pink" : "text-brand-ink-muted hover:text-brand-pink"
+                  active ? "text-white" : "text-white/65 hover:text-white"
                 )}
               >
                 {/* Active indicator — petal-pink pill on top edge */}
@@ -43,7 +43,7 @@ export function AdminBottomBar({ pendingCount }: Props) {
                   {showBadge && (
                     <span
                       aria-label={`${pendingCount} pending`}
-                      className="absolute -top-1 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-brand-pink text-white text-[9px] font-bold inline-flex items-center justify-center"
+                      className="absolute -top-1 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-white text-brand-pink-dark text-[9px] font-bold inline-flex items-center justify-center"
                     >
                       {pendingCount}
                     </span>

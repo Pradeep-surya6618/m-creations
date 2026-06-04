@@ -14,7 +14,7 @@ export function AdminAppBar({ adminEmail, pendingCount }: Props) {
   const initial = adminEmail.trim().charAt(0).toUpperCase() || "M";
 
   return (
-    <header className="sticky top-0 z-40 h-16 bg-white/85 backdrop-blur-md border-b border-brand-blush flex items-center gap-3 px-3 sm:px-5">
+    <header className="sticky top-0 z-40 h-16 bg-brand-pink-dark text-white border-b border-brand-pink-dark md:bg-white/85 md:backdrop-blur-md md:text-brand-ink md:border-brand-blush flex items-center gap-3 px-3 sm:px-5">
       {/* Sidebar toggle — desktop only (mobile uses the bottom bar) */}
       <button
         type="button"
@@ -42,7 +42,7 @@ export function AdminAppBar({ adminEmail, pendingCount }: Props) {
 
       {/* Brand wordmark */}
       <div className="flex items-center gap-2 min-w-0">
-        <span className="font-script text-2xl sm:text-3xl text-brand-pink leading-none truncate">
+        <span className="font-script text-2xl sm:text-3xl text-white md:text-brand-pink leading-none truncate">
           Maria · Admin
         </span>
       </div>
@@ -53,9 +53,9 @@ export function AdminAppBar({ adminEmail, pendingCount }: Props) {
       {pendingCount > 0 && (
         <a
           href="/admin/orders"
-          className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-blush/60 text-brand-pink-dark text-xs font-semibold cursor-pointer hover:bg-brand-blush transition-colors"
+          className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 text-white md:bg-brand-blush/60 md:text-brand-pink-dark text-xs font-semibold cursor-pointer hover:bg-white/25 md:hover:bg-brand-blush transition-colors"
         >
-          <span className="h-2 w-2 rounded-full bg-brand-pink animate-pulse" />
+          <span className="h-2 w-2 rounded-full bg-brand-blush md:bg-brand-pink animate-pulse" />
           {pendingCount} pending
         </a>
       )}
