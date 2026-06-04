@@ -39,6 +39,7 @@ export function LoginForm() {
         setSubmitting(false);
         return;
       }
+      toast.success("Welcome back!");
       router.push(next);
     } catch {
       toast.error("Network error.");
