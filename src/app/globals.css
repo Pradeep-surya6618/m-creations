@@ -46,23 +46,31 @@
 }
 
 /* ---------- Kill the browser autofill blue/yellow tint on inputs ----------
-   Chrome/Edge/Safari paint an `:-webkit-autofill` background that ignores
-   any normal background-color rule. The standard workaround is a giant
-   inset box-shadow that masks the real input background. */
+   Chrome/Edge/Safari paint an `:-webkit-autofill` (and modern `:autofill`)
+   background that ignores normal `background-color` rules. We combine the
+   inset-box-shadow mask + 10-minute transition delay + `background-image:
+   none` to defeat the paint across current Chromium builds. */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
+input:autofill,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active,
-select:-webkit-autofill {
+textarea:autofill,
+select:-webkit-autofill,
+select:autofill {
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
   box-shadow: 0 0 0 1000px white inset !important;
   -webkit-text-fill-color: var(--color-brand-ink) !important;
+  background-color: white !important;
+  background-image: none !important;
   caret-color: var(--color-brand-pink);
-  transition: background-color 5000s ease-in-out 0s;
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s !important;
 }
 
 /* ---------- Custom scrollbar (pink, slim, desktop only) ---------- */
