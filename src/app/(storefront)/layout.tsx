@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/layout/CartDrawer";
+import { WishlistDrawer } from "@/components/layout/WishlistDrawer";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { getAllProducts } from "@/lib/catalog";
@@ -20,6 +21,7 @@ export default async function StorefrontLayout({
       </main>
       <Footer />
       <CartDrawer products={products} />
+      <WishlistDrawer products={products} />
       <StorefrontToaster />
     </MotionProvider>
   );

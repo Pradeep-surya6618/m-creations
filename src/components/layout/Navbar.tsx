@@ -25,6 +25,7 @@ export function Navbar() {
   );
   const wishCount = useWishlistStore((s) => s.ids.length);
   const openCart = useUIStore((s) => s.openCart);
+  const openWishlist = useUIStore((s) => s.openWishlist);
   const toggleMenu = useUIStore((s) => s.toggleMobileMenu);
 
   useEffect(() => {
@@ -62,18 +63,31 @@ export function Navbar() {
 
             <div className="flex items-center gap-3">
               <div className="group relative">
-                <Link
-                  href="/shop"
+                <button
+                  type="button"
+                  onClick={openWishlist}
                   aria-label={`Wishlist, ${wishCount} items`}
-                  className="inline-flex relative h-10 w-10 items-center justify-center rounded-full bg-white/70 backdrop-blur border border-brand-blush text-brand-pink hover:bg-white transition-all"
+                  className="inline-flex relative h-10 w-10 items-center justify-center rounded-full bg-white/70 backdrop-blur border border-brand-blush text-brand-pink hover:bg-white hover:-translate-y-0.5 cursor-pointer transition-all"
                 >
-                  ♥
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill={wishCount > 0 ? "currentColor" : "none"}
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  </svg>
                   {wishCount > 0 && (
                     <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-pink text-white text-[10px] font-bold flex items-center justify-center">
                       {wishCount}
                     </span>
                   )}
-                </Link>
+                </button>
                 <span
                   role="tooltip"
                   className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-pink-dark px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100"
